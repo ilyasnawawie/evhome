@@ -6,8 +6,6 @@ interface HeaderProps {
   onLogout: () => void;
 }
 
-const logoSrc = "https://discord.com/https://media.discordapp.net/attachments/1084717973819899946/1084718017985904680/logo.png"
-
 export default function Header(props: HeaderProps) {
   const { onSearch, logoSrc, onLogout } = props;
 

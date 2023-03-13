@@ -1,12 +1,19 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import Header from '../../components/header'
-import Login from '../../components/login'
+import React from "react";
+import Header from "../../components/header";
 
 export default function Home() {
+  function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
+  }
+
+  function handleLogout() {
+    console.log("bye bye");
+  }
+
+  const logoSrc = "evhome-main/picture/logo.png"
+  
   return (
-    <div> 
-      <Header></Header>
-      </div>
-  )
+    <div>
+      <Header onSearch={handleSearch} logoSrc={logoSrc} onLogout={handleLogout} />
+    </div>
+  );
 }
