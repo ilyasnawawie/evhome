@@ -13,7 +13,7 @@ const ForgotPassword = ({ onCancel }: Props) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // handle forgot password submission
+    
   };
 
   return (

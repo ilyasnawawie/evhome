@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../../components/header";
+import Header from "../../components/header/header";
 import Link from 'next/link';
 
 export default function Home() {
