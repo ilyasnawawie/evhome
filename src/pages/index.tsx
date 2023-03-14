@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "../../components/header";
+import Link from 'next/link';
 
 export default function Home() {
   function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
@@ -14,6 +15,7 @@ export default function Home() {
   return (
     <div>
       <Header onSearch={handleSearch} logoSrc={logoSrc} onLogout={handleLogout} />
+      <Link href="/login"></Link>
     </div>
   );
 }
