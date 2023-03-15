@@ -1,12 +1,11 @@
 import NewPassword from '../../components/forms/newPasswordForm';
 
 const NewPasswordPage = () => {
-  return (
-    <div>
-      <h1>Reset Password</h1>
-      <NewPassword/>
-    </div>
-  );
+    return (
+        <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100">
+            <NewPassword />
+        </div>
+    );
 };
 
 export default NewPasswordPage;
