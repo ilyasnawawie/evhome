@@ -6,8 +6,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div>
-      <h1>Login</h1>
+    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100">
       <Login onLogin={handleLogin} />
     </div>
   );
