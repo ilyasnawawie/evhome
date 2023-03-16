@@ -1,28 +1,25 @@
-import { useState } from 'react';
+import React from 'react';
+import Form from '../inputfieldcomponents/inputField'
 
-interface Props {
-  onCancel: () => void;
-};
-
-const ForgotPassword = ({ onCancel }: Props) => {
-  const [email, setEmail] = useState('');
-
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    
+const ForgotPassword = () => {
+  const handleForgotPassword = (data: { [key: string]: string }) => {
+    // handle forgot password logic here
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="email">Email:</label>
-      <input type="email" id="email" value={email} onChange={handleEmailChange} />
-      <button type="submit">Reset Password</button>
-      <button type="button" onClick={onCancel}>Cancel</button>
-    </form>
+    <div className="flex max-w-md mx-auto justify-center items-center h-screen rounded-lg">
+      <Form
+        onSubmit={handleForgotPassword}
+        inputs={{
+          email: {
+            type: 'email',
+            label: 'Email:',
+            placeholder: '',
+          },
+        }}
+        buttonLabel="Reset Password"
+      />
+    </div>
   );
 };
 

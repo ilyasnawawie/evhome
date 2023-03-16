@@ -17,7 +17,9 @@ const NewPassword = () => {
   };
 
   return (
+    <div className="flex max-w-md mx-auto justify-center items-center h-screen rounded-lg">
     <Form onSubmit={handleSubmit} inputs={inputs} buttonLabel="Reset Password" />
+    </div>
   );
 };
 

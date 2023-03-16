@@ -21,10 +21,14 @@ const Login = ({ onLogin }: Props) => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen rounded-lg">
-      <Form onSubmit={(formData) => onLogin(formData.email, formData.password)} 
-            inputs={inputs} 
-            buttonLabel="Login" />
+    <div className="flex max-w-md mx-auto justify-center items-center h-screen rounded-lg">
+      <Form 
+        onSubmit={(formData) => onLogin(formData.email, formData.password)} 
+        inputs={inputs} 
+        buttonLabel="Sign in"
+        rememberMe={true}
+        forgotPasswordLink="https://example.com/forgot-password"
+      />
     </div>
   );
 };

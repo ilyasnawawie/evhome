@@ -1,13 +1,11 @@
 import ForgotPassword from '../../components/forms/forgotPasswordForm'
 
 const ForgotPasswordPage = () => {
-    const handleCancel = () => {
-    };
+
 
     return (
-        <div>
-            <h1>Forgot Password</h1>
-            <ForgotPassword onCancel={handleCancel} />
+        <div className="flex flex-col justify-center items-center min-h-screen">
+            <ForgotPassword/>
         </div>
     );
 };
