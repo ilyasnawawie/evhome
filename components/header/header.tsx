@@ -1,29 +1,17 @@
-import React from "react";
+import React from 'react';
 
 interface HeaderProps {
-  onSearch: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  logoSrc: string;
-  onLogout: () => void;
+  logo: string;
+  header: string;
 }
 
-export default function Header(props: HeaderProps) {
-  const { onSearch, logoSrc, onLogout } = props;
-
+const Header = ({ logo, header }: HeaderProps) => {
   return (
-    <header className="bg-gray-50 flex justify-between items-center py-3 px-4">
-      <div className="md:flex-none">
-        <input type="text" placeholder="Search..." onChange={onSearch} />
-      </div>
-      <div className="md:flex-none">
-        <img src={logoSrc} alt="" />
-      </div>
-      <div className="flex items-center justify-center md:justify-end">
-        <div className="flex">
-          <button className="ml-4" onClick={onLogout}>
-            Logout
-          </button>
-        </div>
-      </div>
-    </header>
+    <div className="flex flex-col items-center justify-center space-y-4">
+      <img src={logo} alt="Logo" className="h-20 w-auto" />
+      <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">{header}</h2>
+    </div>
   );
-}
+};
+
+export default Header;

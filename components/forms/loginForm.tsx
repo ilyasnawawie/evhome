@@ -1,6 +1,6 @@
 import React from 'react';
-import Form from '../inputfieldcomponents/inputField'
-
+import Form from '../inputfieldcomponents/inputField';
+import Header from '../header/header';
 
 interface Props {
   onLogin: (email: string, password: string) => void;
@@ -22,13 +22,16 @@ const Login = ({ onLogin }: Props) => {
 
   return (
     <div className="flex max-w-md mx-auto justify-center items-center h-screen rounded-lg">
-      <Form 
-        onSubmit={(formData) => onLogin(formData.email, formData.password)} 
-        inputs={inputs} 
-        buttonLabel="Sign in"
-        rememberMe={true}
-        forgotPasswordLink="https://example.com/forgot-password"
-      />
+      <div className="w-full max-w-md">
+        <Header logo="logo.png" header="Sign in to your account" />
+        <Form
+          onSubmit={(formData) => onLogin(formData.email, formData.password)}
+          inputs={inputs}
+          buttonLabel="Sign in"
+          rememberMe={true}
+          forgotPasswordLink="https://example.com/forgot-password"
+        />
+      </div>
     </div>
   );
 };

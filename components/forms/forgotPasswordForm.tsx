@@ -1,13 +1,16 @@
 import React from 'react';
 import Form from '../inputfieldcomponents/inputField'
+import Header from '../header/header';
 
 const ForgotPassword = () => {
   const handleForgotPassword = (data: { [key: string]: string }) => {
-    // handle forgot password logic here
+
   };
 
   return (
-    <div className="flex max-w-md mx-auto justify-center items-center h-screen rounded-lg">
+    <div className="w-full flex max-w-md mx-auto justify-center items-center h-screen rounded-lg">
+      <div className="w-full max-w-md">
+      <Header logo="logo.png" header="Reset your password"/>
       <Form
         onSubmit={handleForgotPassword}
         inputs={{
@@ -19,6 +22,7 @@ const ForgotPassword = () => {
         }}
         buttonLabel="Reset Password"
       />
+      </div>
     </div>
   );
 };

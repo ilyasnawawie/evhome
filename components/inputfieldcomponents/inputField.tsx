@@ -30,7 +30,7 @@ const Form = ({ onSubmit, inputs, buttonLabel, rememberMe, forgotPasswordLink }:
 
   return (
     <form
-      className="bg-white shadow-md rounded-md p-6 font-medium"
+      className="w-full bg-white-100 shadow-md rounded-md p-6 font-medium max-w-md mx-auto mt-8 space-y-6"
       onSubmit={handleSubmit}
     >
       {Object.entries(inputs).map(([name, input]) => (
@@ -47,7 +47,10 @@ const Form = ({ onSubmit, inputs, buttonLabel, rememberMe, forgotPasswordLink }:
               focus:ring-2 
               focus:ring-orange-200 
               focus:ring-opacity-50
-              placeholder-orange-200"
+              placeholder-orange-200
+              appearance-none 
+              leading-tight  
+              focus:shadow-outline"
             type={input.type}
             name={name}
             placeholder={input.placeholder}
@@ -60,31 +63,36 @@ const Form = ({ onSubmit, inputs, buttonLabel, rememberMe, forgotPasswordLink }:
           />
         </div>
       ))}
-      {rememberMe && (
-        <div className="flex items-center justify-between">
-          <label className="text-sm">
+      <div className="flex justify-between items-center">
+        {rememberMe && (
+          <div className="flex items-center">
             <input
               type="checkbox"
               className="mr-1"
               checked={rememberMeState}
               onChange={handleRememberMeChange}
             />
-            <span>Remember me</span>
-          </label>
-        </div>
-      )}
-      {forgotPasswordLink && (
-        <a href={forgotPasswordLink} className="text-sm text-orange-200 hover:underline">
-          Forgot Password?
-        </a>
-      )}
+            <label htmlFor="remember-me" className="block text-sm text-gray-900">
+              Remember me
+            </label>
+          </div>
+        )}
+        {forgotPasswordLink && (
+          <div className="flex items-center">
+            <label className="mr-2 block text-sm text-gray-900">
+              <a href={forgotPasswordLink} className="hover:text-orange-400 ml-2 text-sm">
+                Forgot Password?
+              </a>
+            </label>
+          </div>
+        )}
+      </div>
       <button
         type="submit"
         className="
           w-full py-2 px-4 rounded-md mt-4 
           bg-yellow-400 text-white font-medium 
-          hover:bg-orange-400 focus:outline-none focus:bg-orange-400"
-      >
+          hover:bg-orange-300 focus:outline-none focus:bg-orange-300">
         {buttonLabel}
       </button>
     </form>
