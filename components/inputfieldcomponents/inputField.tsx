@@ -1,14 +1,23 @@
 import React, { useState } from 'react';
 
-interface FormProps {
-  onSubmit: (data: { [key: string]: string }) => void;
-  inputs: { [key: string]: { type: string; label: string; placeholder?: string } };
+type Input = {
+  label: string;
+  type: string;
+  placeholder?: string;
+};
+
+type FormProps = {
+  onSubmit: (formData: { [key: string]: string }) => void;
+  inputs: { [key: string]: Input };
   buttonLabel: string;
   rememberMe?: boolean;
+  rememberMeSlot?: React.ReactNode;
   forgotPasswordLink?: string;
-}
+  forgotPasswordSlot?: React.ReactNode;
+};
 
-const Form = ({ onSubmit, inputs, buttonLabel, rememberMe, forgotPasswordLink }: FormProps) => {
+
+const Form = ({ onSubmit, inputs, buttonLabel, rememberMe, rememberMeSlot, forgotPasswordLink, forgotPasswordSlot }: FormProps) => {
   const [formData, setFormData] = useState<{ [key: string]: string }>({});
   const [rememberMeState, setRememberMeState] = useState(false);
 
@@ -31,8 +40,8 @@ const Form = ({ onSubmit, inputs, buttonLabel, rememberMe, forgotPasswordLink }:
   return (
     <form
       className="w-full bg-white-100 shadow-md rounded-md p-6 font-medium max-w-md mx-auto mt-8 space-y-6"
-      onSubmit={handleSubmit}
-    >
+      onSubmit={handleSubmit}>
+          
       {Object.entries(inputs).map(([name, input]) => (
         <div key={name} className="my-4">
           <label className="block mb-1 text-sm" htmlFor={name}>
@@ -64,27 +73,42 @@ const Form = ({ onSubmit, inputs, buttonLabel, rememberMe, forgotPasswordLink }:
         </div>
       ))}
       <div className="flex justify-between items-center">
-        {rememberMe && (
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              className="mr-1"
-              checked={rememberMeState}
-              onChange={handleRememberMeChange}
-            />
-            <label htmlFor="remember-me" className="block text-sm text-gray-900">
-              Remember me
-            </label>
-          </div>
+        {rememberMeSlot ? (
+          rememberMeSlot
+        ) : (
+          rememberMe && (
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                id="remember-me"
+                className="mr-1"
+                checked={rememberMeState}
+                onChange={handleRememberMeChange}
+              />
+              <label htmlFor="remember-me" className="block text-sm text-gray-900">
+                Remember me
+              </label>
+            </div>
+          )
         )}
-        {forgotPasswordLink && (
-          <div className="flex items-center">
-            <label className="mr-2 block text-sm text-gray-900">
-              <a href={forgotPasswordLink} className="hover:text-orange-400 ml-2 text-sm">
-                Forgot Password?
-              </a>
-            </label>
-          </div>
+        {forgotPasswordSlot ? (
+          forgotPasswordSlot
+        ) : (
+          forgotPasswordLink && (
+            <div className="mr-2 block text-sm text-gray-900">
+              {forgotPasswordLink ? (
+                <a href={forgotPasswordLink} className="hover:text-orange-400 ml-1">
+                  Forgot Password?
+                </a>
+                 ) : (
+                <label className="mr-1 block text-sm">
+                  <a href="#" className="hover:text-orange-400">
+                    Forgot Password?
+                  </a>
+                </label>
+              )}
+            </div>
+          )
         )}
       </div>
       <button

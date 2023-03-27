@@ -4,7 +4,7 @@ import Header from '../header/header';
 
 const ForgotPassword = () => {
   const handleForgotPassword = (data: { [key: string]: string }) => {
-
+    console.log("handle forgot password");
   };
 
   return (

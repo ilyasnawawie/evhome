@@ -20,6 +20,13 @@ const Login = ({ onLogin }: Props) => {
     },
   };
 
+  const rememberMe = true;
+  const rememberMeSlot = <span>Remember me</span>;
+  const forgotPasswordLink = 'https://example.com/forgot-password';
+  const forgotPasswordSlot = (
+  <a href={forgotPasswordLink}>Forgot Password?</a>
+  );
+
   return (
     <div className="flex max-w-md mx-auto justify-center items-center h-screen rounded-lg">
       <div className="w-full max-w-md">
@@ -28,8 +35,10 @@ const Login = ({ onLogin }: Props) => {
           onSubmit={(formData) => onLogin(formData.email, formData.password)}
           inputs={inputs}
           buttonLabel="Sign in"
-          rememberMe={true}
-          forgotPasswordLink="https://example.com/forgot-password"
+          rememberMe={rememberMe}
+          forgotPasswordLink={forgotPasswordLink}
+          rememberMeSlot={rememberMeSlot}
+          forgotPasswordSlot={forgotPasswordSlot}
         />
       </div>
     </div>
