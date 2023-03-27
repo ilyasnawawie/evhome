@@ -24,15 +24,20 @@ const Login = ({ onLogin }: Props) => {
   const rememberMeSlot = <span>Remember me</span>;
   const forgotPasswordLink = 'https://example.com/forgot-password';
   const forgotPasswordSlot = (
-  <a href={forgotPasswordLink}>Forgot Password?</a>
+    <a href={forgotPasswordLink}>Forgot Password?</a>
   );
+
+  const handleSubmit = (formData: { [key: string]: string }) => {
+    console.log('Submitting login form with:', formData);
+    onLogin(formData.email, formData.password);
+  };
 
   return (
     <div className="flex max-w-md mx-auto justify-center items-center h-screen rounded-lg">
       <div className="w-full max-w-md">
         <Header logo="logo.png" header="Sign in to your account" />
         <Form
-          onSubmit={(formData) => onLogin(formData.email, formData.password)}
+          onSubmit={handleSubmit}
           inputs={inputs}
           buttonLabel="Sign in"
           rememberMe={rememberMe}

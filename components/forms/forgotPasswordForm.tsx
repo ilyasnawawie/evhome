@@ -4,24 +4,24 @@ import Header from '../header/header';
 
 const ForgotPassword = () => {
   const handleForgotPassword = (data: { [key: string]: string }) => {
-    console.log("handle forgot password");
+    console.log("Submitting forgot password form with data:", data);
   };
 
   return (
     <div className="w-full flex max-w-md mx-auto justify-center items-center h-screen rounded-lg">
       <div className="w-full max-w-md">
-      <Header logo="logo.png" header="Reset your password"/>
-      <Form
-        onSubmit={handleForgotPassword}
-        inputs={{
-          email: {
-            type: 'email',
-            label: 'Email:',
-            placeholder: '',
-          },
-        }}
-        buttonLabel="Reset Password"
-      />
+        <Header logo="logo.png" header="Reset your password"/>
+        <Form
+          onSubmit={handleForgotPassword}
+          inputs={{
+            email: {
+              type: 'email',
+              label: 'Email:',
+              placeholder: '',
+            },
+          }}
+          buttonLabel="Reset Password"
+        />
       </div>
     </div>
   );

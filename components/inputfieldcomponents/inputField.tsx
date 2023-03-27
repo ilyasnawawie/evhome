@@ -26,22 +26,25 @@ const Form = ({ onSubmit, inputs, buttonLabel, rememberMe, rememberMeSlot, forgo
       ...formData,
       [event.target.name]: event.target.value,
     });
+    console.log("handleChange success");
   };
 
   const handleRememberMeChange = () => {
     setRememberMeState(!rememberMeState);
+    console.log("handleRememberMeChange success");
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onSubmit(formData);
+    console.log("handleSubmit success");
   };
 
   return (
     <form
       className="w-full bg-white-100 shadow-md rounded-md p-6 font-medium max-w-md mx-auto mt-8 space-y-6"
       onSubmit={handleSubmit}>
-          
+
       {Object.entries(inputs).map(([name, input]) => (
         <div key={name} className="my-4">
           <label className="block mb-1 text-sm" htmlFor={name}>

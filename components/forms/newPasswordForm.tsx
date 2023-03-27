@@ -1,9 +1,11 @@
 import React from 'react';
-import Form from '../inputfieldcomponents/inputField'
+import Form from '../inputfieldcomponents/inputField';
 import Header from '../header/header';
 
 const NewPassword = () => {
   const handleSubmit = (data: { [key: string]: string }) => {
+    console.log('New password submitted:', data.password);
+    console.log('Confirm password submitted:', data.confirmPassword);
   };
 
   const inputs = {
