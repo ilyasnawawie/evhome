@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Form from '../inputfieldcomponents/inputField';
 import Header from '../header/header';
 import LoginResponse from '../../services/loginResponse';
+import EmptyInputFieldResponse from '../../services/emptyInputFieldResponse';
 
 interface Props {
   onLogin: (email: string, password: string) => void;
@@ -9,6 +10,7 @@ interface Props {
 
 const Login = ({ onLogin }: Props) => {
   const [loginSuccess, setLoginSuccess] = useState(false);
+  const [hasEmptyFields, setHasEmptyFields] = useState(false);
   const inputs = {
     email: {
       type: 'email',
@@ -23,15 +25,18 @@ const Login = ({ onLogin }: Props) => {
   };
 
   const handleSubmit = (formData: { [key: string]: string }) => {
-    if (formData.email === 'test@gmail.com' && formData.password === 'test1234') {
-      onLogin(formData.email, formData.password);
-      console.log("Login success!", formData);
-      setLoginSuccess(true);
+    if (formData.email && formData.password) {
+      if (formData.email === 'test@gmail.com' && formData.password === 'test1234') {
+        onLogin(formData.email, formData.password);
+        console.log("Login success!", formData);
+        setLoginSuccess(true);
+      } else {
+        setLoginSuccess(false);
+        console.log("Invalid credentials", formData);
+      }
     } else {
-      setLoginSuccess(false);
-      console.log("Invalid credentials", formData);
+      setHasEmptyFields(true);
     }
-    
   };
 
   const rememberMe = true;
@@ -54,9 +59,11 @@ const Login = ({ onLogin }: Props) => {
           rememberMeSlot={rememberMeSlot}
           forgotPasswordSlot={forgotPasswordSlot}
         />
+        <EmptyInputFieldResponse hasError={hasEmptyFields} />
         <LoginResponse success={loginSuccess} />
       </div>
     </div>
   );
-  };
+};
+
 export default Login;
