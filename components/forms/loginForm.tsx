@@ -11,6 +11,8 @@ interface Props {
 const Login = ({ onLogin }: Props) => {
   const [loginSuccess, setLoginSuccess] = useState(false);
   const [hasEmptyFields, setHasEmptyFields] = useState(false);
+  const [showLoginResponse, setShowLoginResponse] = useState(false);
+  const [loginResponse, setLoginResponse] = useState(false);
   const inputs = {
     email: {
       type: 'email',
@@ -26,18 +28,27 @@ const Login = ({ onLogin }: Props) => {
 
   const handleSubmit = (formData: { [key: string]: string }) => {
     if (formData.email && formData.password) {
+      // If both fields have values, try to log in
       if (formData.email === 'test@gmail.com' && formData.password === 'test1234') {
         onLogin(formData.email, formData.password);
         console.log("Login success!", formData);
         setLoginSuccess(true);
+        setLoginResponse(true);
+        setShowLoginResponse(true);
       } else {
         setLoginSuccess(false);
         console.log("Invalid credentials", formData);
+        setLoginResponse(false);
+        setShowLoginResponse(true);
       }
     } else {
       setHasEmptyFields(true);
+      setTimeout(() => {
+        setHasEmptyFields(false);
+      }, 5000);
     }
   };
+  
 
   const rememberMe = true;
   const rememberMeSlot = <span>Remember me</span>;
@@ -60,10 +71,13 @@ const Login = ({ onLogin }: Props) => {
           forgotPasswordSlot={forgotPasswordSlot}
         />
         <EmptyInputFieldResponse hasError={hasEmptyFields} />
-        <LoginResponse success={loginSuccess} />
+        {showLoginResponse && (
+          <LoginResponse success={loginResponse} />
+        )}
       </div>
     </div>
   );
 };
+
 
 export default Login;
