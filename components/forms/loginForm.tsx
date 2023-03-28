@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Form from '../inputfieldcomponents/inputField';
 import Header from '../header/header';
-import LoginResponse from '../../services/loginResponse'
+import LoginResponse from '../../services/loginResponse';
 
 interface Props {
   onLogin: (email: string, password: string) => void;
@@ -23,10 +23,15 @@ const Login = ({ onLogin }: Props) => {
   };
 
   const handleSubmit = (formData: { [key: string]: string }) => {
-    console.log('Submitting login form with:', formData);
-    onLogin(formData.email, formData.password);
-    console.log("Login success!");
-    setLoginSuccess(true);
+    if (formData.email === 'test@gmail.com' && formData.password === 'test1234') {
+      onLogin(formData.email, formData.password);
+      console.log("Login success!", formData);
+      setLoginSuccess(true);
+    } else {
+      setLoginSuccess(false);
+      console.log("Invalid credentials", formData);
+    }
+    
   };
 
   const rememberMe = true;
@@ -53,6 +58,5 @@ const Login = ({ onLogin }: Props) => {
       </div>
     </div>
   );
-};
-
+  };
 export default Login;
