@@ -1,11 +1,29 @@
 import React from 'react';
 import Form from '../inputfieldcomponents/inputField';
 import Header from '../header/header';
+import EmptyInputFieldResponse from '../../services/emptyInputFieldResponse';
+import NewPasswordResponse from '../../services/newPasswordResponse';
 
 const NewPassword = () => {
+  const [formData, setFormData] = React.useState<{ [key: string]: string }>({});
+  const [submitted, setSubmitted] = React.useState(false);
+  const [hasEmptyFields, setHasEmptyFields] = React.useState(false);
+
   const handleSubmit = (data: { [key: string]: string }) => {
-    console.log('New password submitted:', data.password);
-    console.log('Confirm password submitted:', data.confirmPassword);
+    if (!data.password || !data.newPassword) {
+      setHasEmptyFields(true);
+      setTimeout(() => {
+        setHasEmptyFields(false);
+      }, 5000);
+    } else {
+      const success = data.password === data.newPassword;
+      setFormData(data);
+      setSubmitted(true);
+      setTimeout(() => {
+        setSubmitted(false);
+      }, 5000);
+      return success;
+    }
   };
 
   const inputs = {
@@ -13,7 +31,7 @@ const NewPassword = () => {
       type: 'password',
       label: 'New Password:',
     },
-    confirmPassword: {
+    newPassword: {
       type: 'password',
       label: 'Confirm Password:',
     },
@@ -24,6 +42,12 @@ const NewPassword = () => {
       <div className="w-full max-w-md">
         <Header logo="logo.png" header="Enter your new password" />
         <Form onSubmit={handleSubmit} inputs={inputs} buttonLabel="Reset Password" />
+        {hasEmptyFields && (
+          <EmptyInputFieldResponse hasError={hasEmptyFields} />
+        )}
+        {submitted && (
+          <NewPasswordResponse success={formData.password === formData.newPassword} />
+        )}
       </div>
     </div>
   );
