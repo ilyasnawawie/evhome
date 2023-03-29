@@ -28,7 +28,6 @@ const Login = ({ onLogin }: Props) => {
 
   const handleSubmit = (formData: { [key: string]: string }) => {
     if (formData.email && formData.password) {
-      // If both fields have values, try to log in
       if (formData.email === 'test@gmail.com' && formData.password === 'test1234') {
         onLogin(formData.email, formData.password);
         console.log("Login success!", formData);

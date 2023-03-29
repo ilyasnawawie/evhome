@@ -2,14 +2,26 @@ import React from 'react';
 import Form from '../inputfieldcomponents/inputField';
 import Header from '../header/header';
 import ForgotPasswordResponse from '../../services/forgotPasswordResponse';
+import EmptyInputFieldResponse from '../../services/emptyInputFieldResponse';
 
 const ForgotPassword = () => {
   const [formData, setFormData] = React.useState<{ [key: string]: string }>({});
   const [submitted, setSubmitted] = React.useState(false);
+  const [hasEmptyFields, setHasEmptyFields] = React.useState(false);
 
   const handleForgotPassword = (data: { [key: string]: string }) => {
-    setFormData(data);
-    setSubmitted(true);
+    if (!data.email || !data.confirmEmail) {
+      setHasEmptyFields(true);
+      setTimeout(() => {
+        setHasEmptyFields(false);
+      }, 5000);
+    } else {
+      setFormData(data);
+      setSubmitted(true);
+      setTimeout(() => {
+        setSubmitted(false);
+      }, 5000);
+    }
   };
 
   return (
@@ -32,6 +44,9 @@ const ForgotPassword = () => {
           }}
           buttonLabel="Reset Password"
         />
+        {hasEmptyFields && (
+          <EmptyInputFieldResponse hasError={hasEmptyFields} />
+        )}
         {submitted && (
           <ForgotPasswordResponse
             email={formData.email}
