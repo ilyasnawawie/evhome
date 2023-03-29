@@ -26,8 +26,8 @@ const Form = ({ onSubmit, inputs, buttonLabel, rememberMe, rememberMeSlot, forgo
       ...formData,
       [event.target.name]: event.target.value,
     });
-    console.log("handleChange success");
-  };
+      console.log("handleChange success");
+    };
 
   const handleRememberMeChange = () => {
     setRememberMeState(!rememberMeState);
