@@ -56,20 +56,22 @@ const HoverCards = () => {
   ];
 
   return (
-    <div className="cards-container">
+    <div className="flex flex-wrap justify-center items-center max-w-screen-lg mx-auto">
       {cardData.map((card) => (
         <div
-          className="card"
+          className="card relative"
           key={card.title}
           onMouseEnter={() => handleCardHover(card)}
           onMouseLeave={handleCardLeave}
         >
+          <div className={`card-mini-header bg-white-900 w-full h-full flex items-center justify-center transition-opacity duration-300 ${hoveredCard && hoveredCard.title === card.title ? 'opacity-0' : 'opacity-100'}`}>
+            <div className="card-title">{card.title}</div>
+          </div>
           <div className="card-icon">
             <i className={`fas fa-${card.icon}`}></i>
           </div>
-          <div className="card-title">{card.title}</div>
           {hoveredCard && hoveredCard.title === card.title && (
-            <div className="card-description">{card.description}</div>
+            <div className="card-description flex items-center justify-center">{card.description}</div>
           )}
         </div>
       ))}
