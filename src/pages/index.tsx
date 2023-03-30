@@ -6,8 +6,10 @@ const IndexPage = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <div>
-        <Sidebar/>
-        <div className="flex flex-col justify-center items-center flex-grow">
+        <div>
+          <Sidebar />
+        </div>
+        <div className="flex flex-col min-h-screen justify-center items-center flex-grow">
           <Dashboard />
         </div>
       </div>
