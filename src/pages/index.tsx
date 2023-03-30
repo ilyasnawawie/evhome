@@ -1,14 +1,12 @@
 import React from 'react';
-import HeaderMain from '../../components/header/headerMain';
 import Dashboard from '../../components/dashboard/dashboard';
-import Sidebar from '../../components/sidebarnav/sidebarNav';
+import Sidebar from '../../components/sidebarnav/navbar';
 
 const IndexPage = () => {
   return (
     <div className="flex flex-col min-h-screen">
-      <HeaderMain />
-      <div className="flex flex-grow">
-        <Sidebar header="My App" />
+      <div>
+        <Sidebar/>
         <div className="flex flex-col justify-center items-center flex-grow">
           <Dashboard />
         </div>

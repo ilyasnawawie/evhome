@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import DashboardLink from './dashboardLink';
+import DashboardContent from './dashboardContent';
 
 interface CardData {
   title: string;
@@ -6,7 +8,7 @@ interface CardData {
   icon: string;
 }
 
-const HoverCards = () => {
+const Dashboard = () => {
   const [hoveredCard, setHoveredCard] = useState<CardData | null>(null);
 
   const handleCardHover = (card: CardData) => {
@@ -64,14 +66,16 @@ const HoverCards = () => {
           onMouseEnter={() => handleCardHover(card)}
           onMouseLeave={handleCardLeave}
         >
-          <div className={`card-mini-header bg-white-900 w-full h-full flex items-center justify-center transition-opacity duration-300 ${hoveredCard && hoveredCard.title === card.title ? 'opacity-0' : 'opacity-100'}`}>
-            <div className="card-title">{card.title}</div>
-          </div>
+          <DashboardLink
+            title={card.title}
+            onMouseEnter={() => handleCardHover(card)}
+            onMouseLeave={handleCardLeave}
+          />
           <div className="card-icon">
             <i className={`fas fa-${card.icon}`}></i>
           </div>
           {hoveredCard && hoveredCard.title === card.title && (
-            <div className="card-description flex items-center justify-center">{card.description}</div>
+            <DashboardContent title={card.title} cardData={cardData} />
           )}
         </div>
       ))}
@@ -79,4 +83,4 @@ const HoverCards = () => {
   );
 };
 
-export default HoverCards;
+export default Dashboard;
