@@ -1,7 +1,7 @@
 import React from 'react';
 import Form from '../inputfieldcomponents/inputField';
 import Header from '../header/header';
-import EmptyInputFieldResponse from '../../services/emptyInputFieldResponse';
+import EmptyInputFieldResponse from '../../services/emptyInputFieldService';
 import NewPasswordResponse from '../../services/newPasswordResponse';
 
 const NewPassword = () => {
