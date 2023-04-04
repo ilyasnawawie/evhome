@@ -8,6 +8,14 @@ interface LoginResponse {
   status: string;
 }
 
+interface ErrorResponse {
+  message: string;
+  errors: {
+    [key: string]: string;
+  };
+  status: string;
+}
+
 export class AuthService {
   async loginUser(username: string, password: string): Promise<string | null> {
     try {
@@ -25,8 +33,16 @@ export class AuthService {
         console.log('Login failed.');
         return null;
       }
-    } catch (error) {
-      console.error(`Error logging in: ${error}`);
+    } catch (error: unknown) {
+      const err = error as ErrorResponse;
+      if (err.errors) {
+        console.error(`Error logging in: ${err.message}`);
+        for (const [key, value] of Object.entries(err.errors)) {
+          console.error(`${key}: ${value}`);
+        }
+      } else {
+        console.error(`Unexpected error: ${err.message}`);
+      }
       return null;
     }
   }

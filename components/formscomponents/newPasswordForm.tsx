@@ -3,12 +3,10 @@ import InputForm from '../inputfieldcomponents/inputForm';
 import InputField from '../inputfieldcomponents/inputField';
 import InputButton from '../inputfieldcomponents/inputButton';
 import Header from '../headercomponents/header';
-import EmptyInputFieldResponse from '../../services/emptyInputFieldService';
-import NewPasswordResponse from '../../services/newPasswordService';
+import { AuthNewPasswordService } from '../../services/newPasswordService';
 
 const NewPassword = () => {
   const [formData, setFormData] = useState<{ [key: string]: string }>({});
-  const [hasEmptyFields, setHasEmptyFields] = useState(false);
 
   const inputs = {
     password: {
@@ -23,23 +21,32 @@ const NewPassword = () => {
     },
   };
 
+  const authNewPasswordService = new AuthNewPasswordService();
+
   const handleResetPassword = () => {
     console.log('Password successfully changed!', formData);
   };
 
-  const handleSubmit = (formData: { [key: string]: string }) => {
+  const handleSubmit = async (formData: { [key: string]: string }) => {
     const { password, newPassword } = formData;
 
     if (!password || !newPassword) {
-      setHasEmptyFields(true);
-      setTimeout(() => {
-        setHasEmptyFields(false);
-      }, 5000);
+      console.log('Please fill in both fields');
     } else if (password !== newPassword) {
-      setFormData(formData);
+      console.log('Passwords do not match');
     } else {
-      setFormData(formData);
-      handleResetPassword();
+      try {
+        const response = await authNewPasswordService.changePassword(password, newPassword);
+        if (response.status === 'ok') {
+          setFormData(formData);
+          handleResetPassword();
+          console.log('Password reset successful');
+        } else {
+          console.log('Password reset failed', response.message);
+        }
+      } catch (error) {
+        console.error(`Error resetting password: ${error}`);
+      }
     }
   };
 
@@ -66,12 +73,6 @@ const NewPassword = () => {
           />
           <InputButton buttonLabel="Reset Password" />
         </InputForm>
-        {hasEmptyFields && (
-          <EmptyInputFieldResponse hasError={hasEmptyFields} />
-        )}
-        {formData.password !== formData.newPassword && (
-          <NewPasswordResponse success={false} />
-        )}
       </div>
     </div>
   );

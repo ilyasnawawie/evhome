@@ -3,26 +3,31 @@ import InputForm from '../inputfieldcomponents/inputForm';
 import InputField from '../inputfieldcomponents/inputField';
 import InputButton from '../inputfieldcomponents/inputButton';
 import Header from '../headercomponents/header';
-import ForgotPasswordResponse from '../../services/forgotPasswordService';
-import EmptyInputFieldResponse from '../../services/emptyInputFieldService';
+import { ForgotPasswordService } from '../../services/forgotPasswordService';
 
 const ForgotPassword = () => {
   const [formData, setFormData] = useState<{ [key: string]: string }>({});
   const [submitted, setSubmitted] = useState(false);
-  const [hasEmptyFields, setHasEmptyFields] = useState(false);
 
-  const handleForgotPassword = (data: { [key: string]: string }) => {
+  const forgotPasswordService = new ForgotPasswordService();
+
+  const handleForgotPassword = async (data: { [key: string]: string }) => {
     if (!data.email || !data.confirmEmail) {
-      setHasEmptyFields(true);
-      setTimeout(() => {
-        setHasEmptyFields(false);
-      }, 5000);
-    } else {
-      setFormData(data);
-      setSubmitted(true);
       setTimeout(() => {
         setSubmitted(false);
       }, 5000);
+    } else {
+      setFormData(data);
+      try {
+        const response = await forgotPasswordService.forgotPassword(data.email);
+        console.log(response);
+        setSubmitted(true);
+        setTimeout(() => {
+          setSubmitted(false);
+        }, 5000);
+      } catch (error) {
+        console.error(`Error sending forgot password request: ${error}`);
+      }
     }
   };
 
@@ -63,18 +68,9 @@ const ForgotPassword = () => {
               setFormData({ ...formData, confirmEmail: event.target.value })
             }
           />
-          <InputButton
-          buttonLabel="Reset Password"/>
+          <InputButton buttonLabel="Reset Password" />
         </InputForm>
-        {hasEmptyFields && (
-          <EmptyInputFieldResponse hasError={hasEmptyFields} />
-        )}
-        {submitted && (
-          <ForgotPasswordResponse
-            email={formData.email}
-            confirmedEmail={formData.confirmEmail}
-          />
-        )}
+        {submitted && <p>Thank you! We will send you an email shortly.</p>}
       </div>
     </div>
   );

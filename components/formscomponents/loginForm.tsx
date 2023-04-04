@@ -3,7 +3,6 @@ import InputForm from '../inputfieldcomponents/inputForm';
 import InputField from '../inputfieldcomponents/inputField';
 import InputButton from '../inputfieldcomponents/inputButton';
 import Header from '../headercomponents/header';
-import EmptyInputFieldResponse from '../../services/emptyInputFieldService';
 import { AuthService } from '../../services/authservice';
 
 interface Props {
@@ -12,24 +11,18 @@ interface Props {
 
 const Login = ({ onLogin }: Props) => {
   const authService = new AuthService();
-  const [hasEmptyFields, setHasEmptyFields] = useState(false);
   const [emailValue, setEmailValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
 
-  const handleSubmit = async (formData: { [key: string]: string }) => {
-    if (formData.email && formData.password) {
-      const token = await authService.loginUser(formData.email, formData.password);
+  const handleSubmit = async () => {
+    if (emailValue && passwordValue) {
+      const token = await authService.loginUser(emailValue, passwordValue);
       if (token) {
-        onLogin(formData.email, formData.password);
-        console.log('Login success!', formData);
+        onLogin(emailValue, passwordValue);
+        console.log('Login success!');
       } else {
-        console.log('Invalid credentials', formData);
+        console.log('Invalid credentials');
       }
-    } else {
-      setHasEmptyFields(true);
-      setTimeout(() => {
-        setHasEmptyFields(false);
-      }, 5000);
     }
   };
 
@@ -71,7 +64,6 @@ const Login = ({ onLogin }: Props) => {
           />
           <InputButton buttonLabel="Sign in" />
         </InputForm>
-        <EmptyInputFieldResponse hasError={hasEmptyFields} />
       </div>
     </div>
   );

@@ -1,26 +1,26 @@
-import React from 'react';
+import axios, { AxiosResponse } from 'axios';
 
-interface ForgotPasswordResponseProps {
-  email: string;
-  confirmedEmail: string;
+interface ForgotPasswordResponse {
+  message: string;
+  status: string;
 }
 
-const ForgotPasswordResponse: React.FC<ForgotPasswordResponseProps> = ({ email, confirmedEmail }) => {
-  const success = email === confirmedEmail;
+interface ForgotPasswordRequest {
+  email: string;
+}
 
-  React.useEffect(() => {
-    console.log(`Forgot password ${success ? 'success' : 'failed'}`);
-  }, [success]);
+export class ForgotPasswordService {
+  async forgotPassword(email: string): Promise<ForgotPasswordResponse> {
+    try {
+      const response: AxiosResponse<ForgotPasswordResponse> = await axios.post(
+        'https://api.evhome.solutions:22100/forgotPassword',
+        { email }
+      );
 
-  return (
-    <div className={`text-center mt-4 ${success ? 'text-green-600' : 'text-red-600'}`}>
-      {success ? (
-        <p>Email for changing password has been sent</p>
-      ) : (
-        <p>Check your email</p>
-      )}
-    </div>
-  );
-};
-
-export default ForgotPasswordResponse;
+      return response.data;
+    } catch (error) {
+      console.error(`Error sending forgot password request: ${error}`);
+      throw error;
+    }
+  }
+}
