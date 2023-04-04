@@ -1,13 +1,15 @@
-import React from 'react';
-import Form from '../inputfieldcomponents/inputField';
-import Header from '../header/header';
-import ForgotPasswordResponse from '../../services/forgotPasswordResponse';
+import React, { useState } from 'react';
+import InputForm from '../inputfieldcomponents/inputForm';
+import InputField from '../inputfieldcomponents/inputField';
+import InputButton from '../inputfieldcomponents/inputButton';
+import Header from '../headercomponents/header';
+import ForgotPasswordResponse from '../../services/forgotPasswordService';
 import EmptyInputFieldResponse from '../../services/emptyInputFieldService';
 
 const ForgotPassword = () => {
-  const [formData, setFormData] = React.useState<{ [key: string]: string }>({});
-  const [submitted, setSubmitted] = React.useState(false);
-  const [hasEmptyFields, setHasEmptyFields] = React.useState(false);
+  const [formData, setFormData] = useState<{ [key: string]: string }>({});
+  const [submitted, setSubmitted] = useState(false);
+  const [hasEmptyFields, setHasEmptyFields] = useState(false);
 
   const handleForgotPassword = (data: { [key: string]: string }) => {
     if (!data.email || !data.confirmEmail) {
@@ -28,7 +30,7 @@ const ForgotPassword = () => {
     <div className="w-full flex max-w-md mx-auto justify-center items-center h-screen rounded-lg">
       <div className="w-full max-w-md">
         <Header logo="logo.png" header="Reset your password" />
-        <Form
+        <InputForm
           onSubmit={handleForgotPassword}
           inputs={{
             email: {
@@ -42,8 +44,28 @@ const ForgotPassword = () => {
               placeholder: '',
             },
           }}
-          buttonLabel="Reset Password"
-        />
+        >
+          <InputField
+            type="email"
+            name="email"
+            label="Email:"
+            value={formData.email || ''}
+            onChange={(event) =>
+              setFormData({ ...formData, email: event.target.value })
+            }
+          />
+          <InputField
+            type="email"
+            name="confirmEmail"
+            label="Confirm Email:"
+            value={formData.confirmEmail || ''}
+            onChange={(event) =>
+              setFormData({ ...formData, confirmEmail: event.target.value })
+            }
+          />
+          <InputButton
+          buttonLabel="Reset Password"/>
+        </InputForm>
         {hasEmptyFields && (
           <EmptyInputFieldResponse hasError={hasEmptyFields} />
         )}

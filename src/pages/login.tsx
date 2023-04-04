@@ -1,4 +1,4 @@
-import Login from '../../components/forms/loginForm';
+import Login from '../../components/formscomponents/loginForm';
 
 const LoginPage = () => {
   const handleLogin = (email: string, password: string) => {
