@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import InputForm from '../../components/inputfieldcomponents/inputForm';
-import InputField from '../../components/inputfieldcomponents/inputField';
-import InputButton from '../../components/inputfieldcomponents/inputButton';
-import Header from '../../components/headercomponents/header';
-import { ForgotPasswordService } from '../../services/forgotPasswordService';
+import InputForm from '../../../components/inputComponents/inputForm';
+import InputField from '../../../components/inputComponents/inputField';
+import InputButton from '../../../components/inputComponents/inputButton';
+import Header from '../../../components/headerComponents/header';
+import { ForgotPasswordService } from '../../../services/forgotPasswordService';
 
 const ForgotPasswordPage = () => {
   const [formData, setFormData] = useState<{ [key: string]: string }>({});
