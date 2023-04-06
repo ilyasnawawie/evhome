@@ -54,7 +54,7 @@ const NewPasswordPage = () => {
     <div className="flex flex-col justify-center items-center min-h-screen">
       <div className="w-full flex max-w-md mx-auto justify-center items-center h-screen rounded-lg">
         <div className="w-full max-w-md">
-          <Header logo="logo.png" header="Enter your new password" />
+          <Header logo="/logo.png" header="Enter your new password" />
           <InputForm onSubmit={handleSubmit} inputs={inputs}>
             <InputField
               name="password"

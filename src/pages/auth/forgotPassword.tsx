@@ -45,7 +45,7 @@ const ForgotPasswordPage = () => {
     <div className="flex flex-col justify-center items-center min-h-screen">
       <div className="w-full flex max-w-md mx-auto justify-center items-center h-screen rounded-lg">
         <div className="w-full max-w-md">
-          <Header logo="logo.png" header="Reset your password" />
+          <Header logo="/logo.png" header="Reset your password" />
           <InputForm
             onSubmit={handleForgotPassword}
             inputs={{
