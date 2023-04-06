@@ -1,3 +1,4 @@
+// Route.tsx
 import React from 'react';
 import { useRouter } from 'next/router';
 
@@ -9,7 +10,7 @@ const Route: React.FC<RouteProps> = () => {
 
   const pageComponent = page ? (
     <React.Suspense fallback={<div>Loading...</div>}>
-      {require(`../../pages/${page}`).default}
+      {require(`../../../${page}`).default}
     </React.Suspense>
   ) : null;
 
