@@ -4,7 +4,7 @@ import InputForm from '../../../components/inputComponents/inputForm';
 import InputField from '../../../components/inputComponents/inputField';
 import InputButton from '../../../components/inputComponents/inputButton';
 import InputCheckbox from '../../../components/inputComponents/inputCheckbox';
-import Header from '../../../components/headerComponents/header';
+import Header from '../../../components/headercomponents/header';
 import { AuthService } from '../../../services/authService';
 
 const LoginPage = () => {

@@ -1,6 +1,8 @@
+// Dashboard.tsx
 import { useState } from 'react';
-import DashboardLink from './dashboardLink';
-import DashboardContent from './dashboardContent';
+import DashboardLink from '../dashboardcomponents/dashboardLink';
+import DashboardContent from '../dashboardcomponents/dashboardContent';
+import { useRouter } from 'next/router';
 
 interface CardData {
   title: string;
@@ -10,6 +12,7 @@ interface CardData {
 
 const Dashboard = () => {
   const [hoveredCard, setHoveredCard] = useState<CardData | null>(null);
+  const router = useRouter();
 
   const handleCardHover = (card: CardData) => {
     setHoveredCard(card);
@@ -17,6 +20,10 @@ const Dashboard = () => {
 
   const handleCardLeave = () => {
     setHoveredCard(null);
+  };
+
+  const handleCardClick = (card: CardData) => {
+    router.push('userManagement/user');
   };
 
   const cardData: CardData[] = [
@@ -70,6 +77,7 @@ const Dashboard = () => {
             title={card.title}
             onMouseEnter={() => handleCardHover(card)}
             onMouseLeave={handleCardLeave}
+            onClick={() => handleCardClick(card)}
           />
           <div className="card-icon">
             <i className={`fas fa-${card.icon}`}></i>

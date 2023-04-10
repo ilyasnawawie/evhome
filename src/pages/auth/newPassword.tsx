@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import InputForm from '../../../components/inputComponents/inputForm';
 import InputField from '../../../components/inputComponents/inputField';
 import InputButton from '../../../components/inputComponents/inputButton';
-import Header from '../../../components/headerComponents/header';
+import Header from '../../../components/headercomponents/header';
 import { AuthNewPasswordService } from '../../../services/newPasswordService';
 
 const NewPasswordPage = () => {
