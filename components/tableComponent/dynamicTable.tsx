@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import SearchBar from './searchTable';
+import Pagination from './paginationTable';
 
 interface RowData {
   id: number;
@@ -21,8 +23,24 @@ const rows: RowData[] = [
 ];
 
 const BasicTable: React.FC = () => {
+  const [filteredRows, setFilteredRows] = useState(rows);
+
+  const handleSearch = (searchValue: string) => {
+    const lowerCaseSearchValue = searchValue.toLowerCase();
+    const filteredData = rows.filter((row) =>
+      Object.values(row)
+        .join(' ')
+        .toLowerCase()
+        .includes(lowerCaseSearchValue)
+    );
+    setFilteredRows(filteredData);
+  };
+
   return (
     <div className="bg-white overflow-hidden shadow-md rounded-md">
+      <div className="flex items-center justify-end px-6 py-3">
+      <SearchBar onSearch={handleSearch} />
+      </div>
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">
           <tr>
@@ -44,7 +62,7 @@ const BasicTable: React.FC = () => {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {rows.map((row, index) => (
+          {filteredRows.map((row, index) => (
             <tr key={row.id}>
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="text-sm text-gray-900">{row.id}</div>
@@ -67,6 +85,6 @@ const BasicTable: React.FC = () => {
       </table>
     </div>
   );
-}
+};
 
 export default BasicTable;
