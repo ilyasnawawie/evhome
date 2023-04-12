@@ -1,5 +1,7 @@
 // Pagination.tsx
 import React from 'react';
+import { Pagination as MuiPagination } from '@mui/material';
+import { styled } from '@mui/system';
 
 interface PaginationProps {
   currentPage: number;
@@ -11,36 +13,37 @@ interface PaginationProps {
 const Pagination: React.FC<PaginationProps> = ({ currentPage, totalItems, itemsPerPage, onPageChange }) => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-  const handlePrevious = () => {
-    if (currentPage > 1) {
-      onPageChange(currentPage - 1);
-    }
-  };
-
-  const handleNext = () => {
-    if (currentPage < totalPages) {
-      onPageChange(currentPage + 1);
-    }
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    onPageChange(value);
   };
 
   return (
     <div className="flex justify-center mt-4">
-      <button
-        className="px-4 py-2 mr-2 font-medium text-gray-700 bg-gray-200 rounded-lg focus:outline-none hover:bg-gray-300"
-        onClick={handlePrevious}
-        disabled={currentPage === 1}
-      >
-        Previous
-      </button>
-      <button
-        className="px-4 py-2 font-medium text-gray-700 bg-gray-200 rounded-lg focus:outline-none hover:bg-gray-300"
-        onClick={handleNext}
-        disabled={currentPage === totalPages}
-      >
-        Next
-      </button>
+      <StyledPagination
+        count={totalPages}
+        page={currentPage}
+        onChange={handleChange}
+        siblingCount={1}
+        boundaryCount={1}
+        shape="rounded"
+      />
     </div>
   );
 };
+
+const StyledPagination = styled(MuiPagination)`
+  & .MuiPaginationItem-root {
+    border-radius: 4px;
+    margin: 0 4px;
+  }
+
+  & .MuiPaginationItem-page.Mui-selected {
+    background-color: #f5a962;
+  }
+
+  & .MuiPaginationItem-page.Mui-selected:hover {
+    background-color: #f5a962;
+  }
+`;
 
 export default Pagination;
