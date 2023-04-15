@@ -1,6 +1,6 @@
 import React from 'react';
-import Dashboard from '../../components/dashboardcomponents/dashboard'
-import Navbar from '../../components/navcomponents/navbar';
+import Dashboard from '../../components/dashboardComponents/dashboard'
+import Navbar from '../../components/navComponents/navbar';
 
 const IndexPage = () => {
   return (

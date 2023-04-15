@@ -1,7 +1,8 @@
-// Pagination.tsx
 import React from 'react';
 import { Pagination as MuiPagination } from '@mui/material';
 import { styled } from '@mui/system';
+import FirstPage from '@mui/icons-material/FirstPage';
+import LastPage from '@mui/icons-material/LastPage';
 
 interface PaginationProps {
   currentPage: number;
@@ -19,6 +20,12 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalItems, itemsP
 
   return (
     <div className="flex justify-center mt-4">
+      <button
+        onClick={() => onPageChange(1)}
+        disabled={currentPage === 1}
+      >
+        <FirstPage />
+      </button>
       <StyledPagination
         count={totalPages}
         page={currentPage}
@@ -27,6 +34,12 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalItems, itemsP
         boundaryCount={1}
         shape="rounded"
       />
+      <button
+        onClick={() => onPageChange(totalPages)}
+        disabled={currentPage === totalPages}
+      >
+        <LastPage />
+      </button>
     </div>
   );
 };

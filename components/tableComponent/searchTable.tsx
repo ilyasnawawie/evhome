@@ -1,4 +1,9 @@
 import React, { useState } from 'react';
+import TextField from '@mui/material/TextField';
+import SearchIcon from '@mui/icons-material/Search';
+import ClearIcon from '@mui/icons-material/Clear';
+import IconButton from '@mui/material/IconButton';
+import { debounce } from 'lodash';
 
 interface SearchBarProps {
   onSearch: (value: string) => void;
@@ -6,20 +11,90 @@ interface SearchBarProps {
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   const [searchValue, setSearchValue] = useState('');
+  const [inputWidth, setInputWidth] = useState('100%');
+  const [isSearching, setIsSearching] = useState(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(event.target.value);
-    onSearch(event.target.value);
+    const value = event.target.value;
+    setSearchValue(value);
+    if (value === '') {
+      debouncedSearch('');
+    }
+  };
+
+  const handleSearch = () => {
+    setInputWidth('100%');
+    debouncedSearch(searchValue);
+    setIsSearching(true);
+  };
+
+  const debouncedSearch = debounce((value) => {
+    onSearch(value);
+    setIsSearching(false);
+  }, 500);
+
+  const handleClear = () => {
+    setSearchValue('');
+    debouncedClear();
+  };
+
+  const debouncedClear = debounce(() => {
+    setIsSearching(false);
+    onSearch('');
+  }, 500);
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
   };
 
   return (
-    <div className="relative w-1/3">
-      <input
-        type="text"
-        className="w-full h-10 px-3 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:ring-2 focus:ring-orange-200 hover:ring-1 hover:ring-orange-200 focus:outline-none"
-        placeholder="Search"
+    <div className="flex items-center justify-start">
+      <IconButton
+        edge="end"
+        color="inherit"
+        onClick={searchValue === '' ? undefined : handleSearch}
+        disabled={searchValue === '' || isSearching}
+        aria-label="search"
+        sx={{ mr: 2 }}
+      >
+        <SearchIcon />
+      </IconButton>
+      <IconButton
+        edge="end"
+        color="inherit"
+        onClick={handleClear}
+        disabled={searchValue === '' || isSearching}
+        aria-label="clear"
+        sx={{ mr: 2 }}
+      >
+        <ClearIcon />
+      </IconButton>
+      <TextField
         value={searchValue}
         onChange={handleChange}
+        onKeyPress={handleKeyPress}
+        label="Search"
+        variant="outlined"
+        sx={{
+          '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+            },
+            '&:hover fieldset': {
+              borderColor: 'gray',
+            },
+            '&.Mui-focused fieldset': {
+              borderColor: 'orange',
+            },
+          },
+          '& .MuiInputLabel-root': {
+            color: 'orange',
+          },
+          '& .MuiInputLabel-root.Mui-focused': {
+            color: 'orange',
+          },
+        }}
       />
     </div>
   );
