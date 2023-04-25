@@ -22,12 +22,25 @@ const DynamicTable: React.FC<DynamicTableProps> = ({ columns }) => {
     try {
       const token = localStorage.getItem('token');
       const headers = {
-        Authorization: `Bearer ${token}`,
+        // 'Authorization': `Bearer ${token}`,
+        'token': token ? token : '',
         'Content-Type': 'application/json',
       };
-      const response = await axios.get('http://192.168.0.21:22100/admin/user-group', { headers });
-
-      setFilteredRows(response.data);
+      const response = await axios.get('http://192.168.0.21:22100/admin/user-group', {headers: headers} );
+      
+      if (Array.isArray(response.data)) {
+        const formattedRows = response.data.map(row => {
+          return {
+            id: row.id,
+            name: row.name,
+            email: row.email,
+            phone: row.phone,
+          };
+        });
+        setFilteredRows(formattedRows);
+      } else {
+        setFilteredRows([]);
+      }
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
