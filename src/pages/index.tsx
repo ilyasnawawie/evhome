@@ -1,8 +1,21 @@
-import React from 'react';
-import Dashboard from '../../components/dashboardComponents/dashboard'
+import React, { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import Dashboard from '../../components/dashboardcomponents/dashboard'
 import Navbar from '../../components/navComponents/navbar';
 
 const IndexPage = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    if (!storedToken) {
+      router.push('auth/login');
+      return;
+    }
+    
+    console.log('Token:', storedToken);
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen">
       <div>

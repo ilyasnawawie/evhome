@@ -10,6 +10,7 @@ const ProfileDropdown: React.FC = () => {
   const router = useRouter();
 
   const handleSignOut = () => {
+    localStorage.removeItem('token');
     router.push('auth/login');
   };
 

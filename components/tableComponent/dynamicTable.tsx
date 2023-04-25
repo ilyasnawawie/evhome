@@ -20,11 +20,12 @@ const DynamicTable: React.FC<DynamicTableProps> = ({ columns }) => {
   const fetchData = async (query: string, page: number, pageSize: number) => {
     setIsLoading(true);
     try {
-      const response = await axios.post('https://api.evhome.solutions:22100/user-management', {
-        query,
-        page,
-        pageSize,
-      });
+      const token = localStorage.getItem('token');
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      };
+      const response = await axios.get('http://192.168.0.21:22100/admin/user-group', { headers });
 
       setFilteredRows(response.data);
     } catch (error) {

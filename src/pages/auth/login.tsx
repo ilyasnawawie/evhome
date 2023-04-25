@@ -19,35 +19,35 @@ const LoginPage = () => {
   const router = useRouter();
 
   const handleSubmit = async () => {
-    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-  
-    if (emailValue.trim().length === 0 && passwordValue.trim().length === 0) {
-      setErrorMessage('Both email and password fields cannot be empty');
-      setLoginStatus('failure');
-    } else if (emailValue.trim().length === 0) {
-      setErrorMessage('Email cannot be empty');
-      setLoginStatus('failure');
-    } else if (!emailRegex.test(emailValue)) {
-      setErrorMessage('Please enter a valid email address');
-      setLoginStatus('failure');
-    } else if (passwordValue.trim().length === 0) {
-      setErrorMessage('Password cannot be empty');
-      setLoginStatus('failure');
-    } else if (passwordValue.trim().length < 8) {
-      setErrorMessage('Password must contain at least 8 characters.');
-      setLoginStatus('failure');
+  const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+
+  if (emailValue.trim().length === 0 && passwordValue.trim().length === 0) {
+    setErrorMessage('Both email and password fields cannot be empty');
+    setLoginStatus('failure');
+  } else if (emailValue.trim().length === 0) {
+    setErrorMessage('Email cannot be empty');
+    setLoginStatus('failure');
+  } else if (!emailRegex.test(emailValue)) {
+    setErrorMessage('Please enter a valid email address');
+    setLoginStatus('failure');
+  } else if (passwordValue.trim().length === 0) {
+    setErrorMessage('Password cannot be empty');
+    setLoginStatus('failure');
+  } else if (passwordValue.trim().length < 8) {
+    setErrorMessage('Password must contain at least 8 characters.');
+    setLoginStatus('failure');
+  } else {
+    const token = await authService.loginUser(emailValue, passwordValue);
+    if (token) {
+      setLoginStatus('success');
+      setErrorMessage('');
     } else {
-      const token = await authService.loginUser(emailValue, passwordValue);
-      if (token) {
-        setLoginStatus('success');
-        setErrorMessage('');
-      } else {
-        setLoginStatus('failure');
-        setErrorMessage('Invalid credentials');
-      }
+      setLoginStatus('failure');
+      setErrorMessage('Invalid credentials');
     }
-  };
-  
+  }
+};
+
 
   const handlePopupClose = () => {
     setLoginStatus('none');
