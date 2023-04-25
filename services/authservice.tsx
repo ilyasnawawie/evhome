@@ -19,10 +19,12 @@ interface ErrorResponse {
 export class AuthService {
   async loginUser(username: string, password: string): Promise<string | null> {
     try {
-      const response: AxiosResponse<LoginResponse> = await axios.post('https://api.evhome.solutions:22100/login', {
-        username: username,
-        password: password,
-      });
+      console.log(username)
+      console.log(password)
+      let params = new URLSearchParams();
+      params.append('username', username);
+      params.append('password', password);
+      const response: AxiosResponse<LoginResponse> = await axios.post('http://192.168.0.21:22100/admin/login', params);
 
       if (response.data.status === 'ok') {
         console.log(response.data.message);

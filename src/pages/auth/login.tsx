@@ -4,7 +4,7 @@ import InputForm from '../../../components/inputComponents/inputForm';
 import InputField from '../../../components/inputComponents/inputField';
 import InputButton from '../../../components/inputComponents/inputButton';
 import InputCheckbox from '../../../components/inputComponents/inputCheckbox';
-import Header from '../../../components/headerComponents/header';
+import Header from '../../../components/headercomponents/header';
 import { AuthService } from '../../../services/authService';
 
 const LoginPage = () => {
@@ -15,27 +15,43 @@ const LoginPage = () => {
   const [loginStatus, setLoginStatus] = useState<
     'success' | 'failure' | 'none'
   >('none');
+  const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();
 
   const handleSubmit = async () => {
-    if (!emailValue && !passwordValue) {
-      console.log('Both email and password fields cannot be empty');
-    } else if (!emailValue) {
-      console.log('Email cannot be empty');
-    } else if (!passwordValue) {
-      console.log('Password cannot be empty');
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+  
+    if (emailValue.trim().length === 0 && passwordValue.trim().length === 0) {
+      setErrorMessage('Both email and password fields cannot be empty');
+      setLoginStatus('failure');
+    } else if (emailValue.trim().length === 0) {
+      setErrorMessage('Email cannot be empty');
+      setLoginStatus('failure');
+    } else if (!emailRegex.test(emailValue)) {
+      setErrorMessage('Please enter a valid email address');
+      setLoginStatus('failure');
+    } else if (passwordValue.trim().length === 0) {
+      setErrorMessage('Password cannot be empty');
+      setLoginStatus('failure');
+    } else if (passwordValue.trim().length < 8) {
+      setErrorMessage('Password must contain at least 8 characters.');
+      setLoginStatus('failure');
     } else {
       const token = await authService.loginUser(emailValue, passwordValue);
       if (token) {
         setLoginStatus('success');
+        setErrorMessage('');
       } else {
         setLoginStatus('failure');
+        setErrorMessage('Invalid credentials');
       }
     }
   };
+  
 
   const handlePopupClose = () => {
     setLoginStatus('none');
+    setErrorMessage('');
   };
 
   const handleForgotPassword = () => {
@@ -110,7 +126,7 @@ const LoginPage = () => {
             className="bg-red-200 border-red-600 border-2 rounded-md p-4 mt-4 text-red-600"
             role="alert"
           >
-            Invalid credentials
+            {errorMessage}
             <button className="float-right" onClick={handlePopupClose}>
               x
             </button>
