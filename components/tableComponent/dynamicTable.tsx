@@ -17,38 +17,56 @@ const DynamicTable: React.FC<DynamicTableProps> = ({ columns }) => {
   const [filteredRows, setFilteredRows] = useState<RowData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  interface UserGroupRow {
+    id: number;
+    name: string;
+    email: string;
+    phone: string;
+    count: number;
+  }
+  
   const fetchData = async (query: string, page: number, pageSize: number) => {
-    setIsLoading(true);
-    try {
-      const token = localStorage.getItem('token');
-      const headers = {
-        // 'Authorization': `Bearer ${token}`,
-        'token': token ? token : '',
-        'Content-Type': 'application/json',
-      };
-      const response = await axios.get('http://192.168.0.21:22100/admin/user-group', {headers: headers} );
-      
-      if (Array.isArray(response.data)) {
-        const formattedRows = response.data.map(row => {
-          return {
-            id: row.id,
-            name: row.name,
-            email: row.email,
-            phone: row.phone,
-          };
-        });
-        setFilteredRows(formattedRows);
-      } else {
-        setFilteredRows([]);
+  setIsLoading(true);
+  try {
+    const token = localStorage.getItem('token');
+    const headers = {
+      'token': token ? token : '',
+      'Content-Type': 'application/json',
+    };
+    const response = await axios.get('http://192.168.0.21:22100/admin/user-group', { headers: headers });
+
+    if (Array.isArray(response.data.data.user_groups)) {
+      let formattedRows = response.data.data.user_groups.map((row: UserGroupRow) => {
+        return {
+          id: row.id,
+          name: row.name,
+          email: row.email,
+          phone: row.phone,
+          count: row.count,
+        };
+      });
+
+      if (query) {
+        formattedRows = formattedRows.filter((row: UserGroupRow) =>
+          row.name.toLowerCase().includes(query.toLowerCase()) ||
+          row.email.toLowerCase().includes(query.toLowerCase()) ||
+          row.phone.toLowerCase().includes(query.toLowerCase())
+        );
       }
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    } finally {
-      setIsLoading(false);
+
+      setFilteredRows(formattedRows);
+    } else {
+      setFilteredRows([]);
     }
-  };
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   useEffect(() => {
+    console.log('Running fetchData effect');
     fetchData('', currentPage, itemsPerPage);
   }, [currentPage]);
 
@@ -62,6 +80,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({ columns }) => {
   };
 
   const paginatedRows = filteredRows.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  console.log('Paginated rows:', paginatedRows);
 
   return (
     <div className="bg-white overflow-hidden shadow-md rounded-md">
@@ -86,7 +105,9 @@ const DynamicTable: React.FC<DynamicTableProps> = ({ columns }) => {
             <tr key={index}>
               {columns.map((column) => (
                 <td key={column} className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-900">{row[column]}</div>
+                  <div className="text-sm text-gray-900">
+                    {row[column] ? row[column] : `No data for ${column}`}
+                  </div>
                 </td>
               ))}
             </tr>
@@ -100,7 +121,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({ columns }) => {
         onPageChange={handlePageChange}
       />
     </div>
-  );
-};
+   );
 
-export default DynamicTable;
+  };
+export default DynamicTable;  

@@ -9,11 +9,11 @@ const UserPage = () => {
       <div className="flex flex-col min-h-screen justify-center items-center flex-grow">
         <DynamicTable
           columns={[
-            "count",
-            "email",
             "id",
             "name",
-            "phone"
+            "email",
+            "phone",
+            "count"
           ]}
         />
       </div>
