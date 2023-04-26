@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Pagination as MuiPagination } from '@mui/material';
 import { styled } from '@mui/system';
 import FirstPage from '@mui/icons-material/FirstPage';
 import LastPage from '@mui/icons-material/LastPage';
-import axios from 'axios';
 
 interface PaginationProps {
   currentPage: number;
@@ -20,20 +19,8 @@ const Pagination: React.FC<PaginationProps> = ({
 }) => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-  const handleChange = async (event: React.ChangeEvent<unknown>, value: number) => {
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     onPageChange(value);
-
-    try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get(`http://192.168.0.21:22100/admin/user-group?page=${value}`, {
-        headers: {
-          'token': token ? token : '',
-        },
-      });
-      console.log(response.data);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
   };
 
   return (

@@ -17,9 +17,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setSearchValue(value);
-    if (value === '') {
-      debouncedSearch('');
-    }
   };
 
   const handleSearch = () => {
@@ -46,9 +43,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
       setIsSearching(false);
     }
   }, 500);
-  
-  
-  
 
   const handleClear = () => {
     setSearchValue('');
