@@ -4,14 +4,14 @@ import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import IconButton from '@mui/material/IconButton';
 import { debounce } from 'lodash';
+import axios from 'axios';
 
 interface SearchBarProps {
-  onSearch: (value: string) => void;
+  onSearch: (value: any) => void;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   const [searchValue, setSearchValue] = useState('');
-  const [inputWidth, setInputWidth] = useState('100%');
   const [isSearching, setIsSearching] = useState(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,25 +23,37 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   };
 
   const handleSearch = () => {
-    setInputWidth('100%');
     debouncedSearch(searchValue);
     setIsSearching(true);
   };
 
-  const debouncedSearch = debounce((value) => {
-    onSearch(value);
-    setIsSearching(false);
+  const debouncedSearch = debounce(async (value) => {
+    try {
+      setIsSearching(true);
+      const token = localStorage.getItem('token');
+      const response = await axios.get('http://192.168.0.21:22100/admin/user-group', {
+        headers: {
+          'token': token ? token : '',
+        },
+        params: {
+          query: value,
+        },
+      });
+      onSearch(value);
+      setIsSearching(false);
+    } catch (error) {
+      console.error(error);
+      setIsSearching(false);
+    }
   }, 500);
+  
+  
+  
 
   const handleClear = () => {
     setSearchValue('');
-    debouncedClear();
+    debouncedSearch('');
   };
-
-  const debouncedClear = debounce(() => {
-    setIsSearching(false);
-    onSearch('');
-  }, 500);
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
