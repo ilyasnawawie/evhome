@@ -14,6 +14,7 @@ interface DynamicTableProps {
 const DynamicTable: React.FC<DynamicTableProps> = ({ columns }) => {
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchValue, setSearchValue] = useState('');
   const [filteredRows, setFilteredRows] = useState<RowData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -28,15 +29,15 @@ const DynamicTable: React.FC<DynamicTableProps> = ({ columns }) => {
   const [totalItems, setTotalItems] = useState(0);
 
   const fetchData = async (query: string, page: number, pageSize: number) => {
-    setIsLoading(true);
     try {
       const token = localStorage.getItem('token');
       const headers = {
         'token': token ? token : '',
         'Content-Type': 'application/json',
       };
-      const response = await axios.get(`http://192.168.0.21:22100/admin/user-group?page=${page}&page_size=${pageSize}&query=${query}`, { headers: headers });
-
+      setIsLoading(true);
+      const response = await axios.get(`http://192.168.0.13:22100/admin/user-group?page=${page}&page_size=${pageSize}&query=${query}`, { headers: headers });
+  
       if (Array.isArray(response.data.data.user_groups)) {
         let formattedRows = response.data.data.user_groups.map((row: UserGroupRow) => {
           return {
@@ -47,7 +48,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({ columns }) => {
             count: row.count,
           };
         });
-
+  
         setFilteredRows(formattedRows);
         setTotalItems(response.data.meta.total);
       } else {
@@ -59,20 +60,27 @@ const DynamicTable: React.FC<DynamicTableProps> = ({ columns }) => {
       setIsLoading(false);
     }
   };
+  
 
   useEffect(() => {
-    console.log('Running fetchData effect');
+  console.log('Running fetchData effect');
+  if (searchValue === '') {
+    setFilteredRows([]);
     fetchData('', currentPage, itemsPerPage);
-  }, [currentPage]);
+  } else {
+    fetchData(searchValue, currentPage, itemsPerPage);
+  }
+}, [currentPage, searchValue]);
 
+  
   const handleSearch = (searchValue: string) => {
+    setSearchValue(searchValue);
     setCurrentPage(1);
-    fetchData(searchValue, 1, itemsPerPage);
   };
-
+  
   const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage);
-  };
+  setCurrentPage(newPage);
+};
 
   return (
     <div className="bg-white overflow-hidden shadow-md rounded-md">

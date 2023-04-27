@@ -3,16 +3,13 @@ import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import IconButton from '@mui/material/IconButton';
-import { debounce } from 'lodash';
-import axios from 'axios';
 
 interface SearchBarProps {
-  onSearch: (value: any) => void;
+  onSearch: (value: string, shouldSearch: boolean) => void;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   const [searchValue, setSearchValue] = useState('');
-  const [isSearching, setIsSearching] = useState(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -20,33 +17,18 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   };
 
   const handleSearch = () => {
-    debouncedSearch(searchValue);
-    setIsSearching(true);
+    onSearch(searchValue, true);
   };
-
-  const debouncedSearch = debounce(async (value) => {
-    try {
-      setIsSearching(true);
-      const token = localStorage.getItem('token');
-      const response = await axios.get('http://192.168.0.21:22100/admin/user-group', {
-        headers: {
-          'token': token ? token : '',
-        },
-        params: {
-          query: value,
-        },
-      });
-      onSearch(value);
-      setIsSearching(false);
-    } catch (error) {
-      console.error(error);
-      setIsSearching(false);
-    }
-  }, 500);
-
+  
   const handleClear = () => {
     setSearchValue('');
-    debouncedSearch('');
+    onSearch('', true);
+  };
+  
+  const handleBlur = () => {
+    if (searchValue === '') {
+      onSearch('', true);
+    }
   };
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -60,8 +42,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
       <IconButton
         edge="end"
         color="inherit"
-        onClick={searchValue === '' ? undefined : handleSearch}
-        disabled={searchValue === '' || isSearching}
+        onClick={handleSearch}
+        disabled={searchValue === ''}
         aria-label="search"
         sx={{ mr: 2 }}
       >
@@ -71,7 +53,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
         edge="end"
         color="inherit"
         onClick={handleClear}
-        disabled={searchValue === '' || isSearching}
+        disabled={searchValue === ''}
         aria-label="clear"
         sx={{ mr: 2 }}
       >
@@ -80,6 +62,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
       <TextField
         value={searchValue}
         onChange={handleChange}
+        onBlur={handleBlur}
         onKeyPress={handleKeyPress}
         label="Search"
         variant="outlined"
