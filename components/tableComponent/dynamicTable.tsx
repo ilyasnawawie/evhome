@@ -28,6 +28,8 @@ const DynamicTable: React.FC<DynamicTableProps> = ({ columns }) => {
 
   const [totalItems, setTotalItems] = useState(0);
 
+  const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL || '';
+
   const fetchData = async (query: string, page: number, pageSize: number) => {
     try {
       const token = localStorage.getItem('token');
@@ -36,7 +38,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({ columns }) => {
         'Content-Type': 'application/json',
       };
       setIsLoading(true);
-      const response = await axios.get(`http://192.168.0.13:22100/admin/user-group?page=${page}&page_size=${pageSize}&query=${query}`, { headers: headers });
+      const response = await axios.get(`${adminUrl}/admin/user-group?page=${page}&page_size=${pageSize}&query=${query}`, { headers: headers });
   
       if (Array.isArray(response.data.data.user_groups)) {
         let formattedRows = response.data.data.user_groups.map((row: UserGroupRow) => {
@@ -79,6 +81,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({ columns }) => {
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
+
 
   return (
     <div className="bg-white overflow-hidden shadow-md rounded-md">

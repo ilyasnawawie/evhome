@@ -22,8 +22,11 @@ export class AuthService {
     params.append('username', username);
     params.append('password', password);
 
+    const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL || '';
+    const endpoint = `${adminUrl}/admin/login`;
+
     try {
-      const response: AxiosResponse<LoginResponse> = await axios.post('http://192.168.0.13:22100/admin/login', params);
+      const response: AxiosResponse<LoginResponse> = await axios.post(endpoint, params);
 
       if (response.data.status === 'ok') {
         const token = response.data.data.token;
