@@ -1,6 +1,9 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-}
+const { parsed: loginEnv } = require('dotenv').config({
+  path: '../environment/login.env',
+});
 
-module.exports = nextConfig
+module.exports = {
+  env: {
+    ...loginEnv,
+  },
+};

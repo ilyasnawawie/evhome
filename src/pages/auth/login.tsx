@@ -37,22 +37,21 @@ const LoginPage = () => {
       setErrorMessage('Password must contain at least 8 characters.');
       setLoginStatus('failure');
     } else {
-      const token = await authService.loginUser(emailValue, passwordValue);
-      if (token) {
+      try {
+        const token = await authService.loginUser(emailValue, passwordValue);
         setLoginStatus('success');
         setErrorMessage('');
-        localStorage.setItem('token', token); // store the token in localStorage
-
+        localStorage.setItem('token', token);
+  
         setTimeout(() => {
           router.push('/');
         }, 2000);
-      } else {
+      } catch (error: any) {
         setLoginStatus('failure');
-        setErrorMessage('Invalid credentials');
+        setErrorMessage(error.message);
       }
     }
   };
-  
 
   const handlePopupClose = () => {
     setLoginStatus('none');

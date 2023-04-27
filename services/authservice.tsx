@@ -17,35 +17,39 @@ interface ErrorResponse {
 }
 
 export class AuthService {
-  async loginUser(username: string, password: string): Promise<string | null> {
+  async loginUser(username: string, password: string): Promise<string> {
+    let params = new URLSearchParams();
+    params.append('username', username);
+    params.append('password', password);
+
     try {
-      console.log(username)
-      console.log(password)
-      let params = new URLSearchParams();
-      params.append('username', username);
-      params.append('password', password);
-      const response: AxiosResponse<LoginResponse> = await axios.post('http://192.168.0.21:22100/admin/login', params);
+      const response: AxiosResponse<LoginResponse> = await axios.post('http://192.168.0.13:22100/admin/login', params);
 
       if (response.data.status === 'ok') {
-        console.log(response.data.message);
         const token = response.data.data.token;
         localStorage.setItem('authToken', token);
         return token;
       } else {
-        console.log('Login failed.');
-        return null;
+        throw new Error(response.data.message);
       }
-    } catch (error: unknown) {
-      const err = error as ErrorResponse;
-      if (err.errors) {
-        console.error(`Error logging in: ${err.message}`);
-        for (const [key, value] of Object.entries(err.errors)) {
-          console.error(`${key}: ${value}`);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const err = error.response?.data as ErrorResponse;
+        if (err.errors) {
+          if (err.errors.username) {
+            throw new Error(err.errors.username);
+          } else if (err.errors.password) {
+            throw new Error('The password you entered is incorrect.');
+          } else {
+            const errorMessages = Object.values(err.errors).join(', ');
+            throw new Error(errorMessages);
+          }
+        } else {
+          throw new Error(err.message);
         }
       } else {
-        console.error(`Unexpected error: ${err.message}`);
+        throw new Error('An unexpected error occurred.');
       }
-      return null;
     }
   }
 }
