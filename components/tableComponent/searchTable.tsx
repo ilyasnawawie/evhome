@@ -5,7 +5,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import IconButton from '@mui/material/IconButton';
 
 interface SearchBarProps {
-  onSearch: (value: string, shouldSearch: boolean) => void;
+  onSearch: (value: string) => void;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
@@ -17,19 +17,19 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   };
 
   const handleSearch = () => {
-    onSearch(searchValue, true);
+    onSearch(searchValue);
   };
   
   const handleClear = () => {
     setSearchValue('');
-    onSearch('', true);
+    onSearch('');
   };
   
   const handleBlur = () => {
     if (searchValue === '') {
-      onSearch('', true);
+      onSearch('');
     }
-  };
+  };  
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {

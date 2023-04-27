@@ -39,7 +39,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({ columns }) => {
       };
       setIsLoading(true);
       const response = await axios.get(`${adminUrl}/admin/user-group?page=${page}&page_size=${pageSize}&query=${query}`, { headers: headers });
-  
+
       if (Array.isArray(response.data.data.user_groups)) {
         let formattedRows = response.data.data.user_groups.map((row: UserGroupRow) => {
           return {
@@ -50,7 +50,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({ columns }) => {
             count: row.count,
           };
         });
-  
+
         setFilteredRows(formattedRows);
         setTotalItems(response.data.meta.total);
       } else {
@@ -62,26 +62,23 @@ const DynamicTable: React.FC<DynamicTableProps> = ({ columns }) => {
       setIsLoading(false);
     }
   };
-  
+
   useEffect(() => {
-    console.log('Running fetchData effect');
     if (searchValue === '') {
-      setFilteredRows([]);
       fetchData('', currentPage, itemsPerPage);
     } else {
       fetchData(searchValue, currentPage, itemsPerPage);
     }
-  }, [currentPage, searchValue]);
-  
+  }, [searchValue, currentPage]);
+
   const handleSearch = (searchValue: string) => {
     setSearchValue(searchValue);
     setCurrentPage(1);
   };
-  
+
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
-
 
   return (
     <div className="bg-white overflow-hidden shadow-md rounded-md">
