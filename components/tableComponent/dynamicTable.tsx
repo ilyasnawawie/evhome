@@ -61,17 +61,15 @@ const DynamicTable: React.FC<DynamicTableProps> = ({ columns }) => {
     }
   };
   
-
   useEffect(() => {
-  console.log('Running fetchData effect');
-  if (searchValue === '') {
-    setFilteredRows([]);
-    fetchData('', currentPage, itemsPerPage);
-  } else {
-    fetchData(searchValue, currentPage, itemsPerPage);
-  }
-}, [currentPage, searchValue]);
-
+    console.log('Running fetchData effect');
+    if (searchValue === '') {
+      setFilteredRows([]);
+      fetchData('', currentPage, itemsPerPage);
+    } else {
+      fetchData(searchValue, currentPage, itemsPerPage);
+    }
+  }, [currentPage, searchValue]);
   
   const handleSearch = (searchValue: string) => {
     setSearchValue(searchValue);
@@ -79,8 +77,8 @@ const DynamicTable: React.FC<DynamicTableProps> = ({ columns }) => {
   };
   
   const handlePageChange = (newPage: number) => {
-  setCurrentPage(newPage);
-};
+    setCurrentPage(newPage);
+  };
 
   return (
     <div className="bg-white overflow-hidden shadow-md rounded-md">
