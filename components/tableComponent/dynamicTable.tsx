@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import SearchBar from './searchTable';
 import Pagination from './paginationTable';
 import { useFetchData } from './fetchData';
 
-interface RowData {
-  [key: string]: any;
-}
 
 interface DynamicTableProps {
   columns: string[];
@@ -23,7 +19,6 @@ const DynamicTable: React.FC<DynamicTableProps> = ({ columns }) => {
   }, []);
 
   const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL || '';
-
   const { data, totalItems, isLoading } = useFetchData({
     adminUrl,
     token,
