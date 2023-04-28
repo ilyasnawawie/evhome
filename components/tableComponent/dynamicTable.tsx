@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import SearchBar from './searchTable';
 import Pagination from './paginationTable';
+import { useFetchData } from './fetchData';
 
 interface RowData {
   [key: string]: any;
@@ -15,61 +16,21 @@ const DynamicTable: React.FC<DynamicTableProps> = ({ columns }) => {
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState('');
-  const [filteredRows, setFilteredRows] = useState<RowData[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [token, setToken] = useState<string | null>(null);
 
-  interface UserGroupRow {
-    id: number;
-    name: string;
-    email: string;
-    phone: string;
-    count: number;
-  }
-
-  const [totalItems, setTotalItems] = useState(0);
+  useEffect(() => {
+    setToken(localStorage.getItem('token'));
+  }, []);
 
   const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL || '';
 
-  const fetchData = async (query: string, page: number, pageSize: number) => {
-    try {
-      const token = localStorage.getItem('token');
-      const headers = {
-        'token': token ? token : '',
-        'Content-Type': 'application/json',
-      };
-      setIsLoading(true);
-      const response = await axios.get(`${adminUrl}/admin/user-group?page=${page}&page_size=${pageSize}&query=${query}`, { headers: headers });
-
-      if (Array.isArray(response.data.data.user_groups)) {
-        let formattedRows = response.data.data.user_groups.map((row: UserGroupRow) => {
-          return {
-            id: row.id,
-            name: row.name,
-            email: row.email,
-            phone: row.phone,
-            count: row.count,
-          };
-        });
-
-        setFilteredRows(formattedRows);
-        setTotalItems(response.data.meta.total);
-      } else {
-        setFilteredRows([]);
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (searchValue === '') {
-      fetchData('', currentPage, itemsPerPage);
-    } else {
-      fetchData(searchValue, currentPage, itemsPerPage);
-    }
-  }, [searchValue, currentPage]);
+  const { data, totalItems, isLoading } = useFetchData({
+    adminUrl,
+    token,
+    query: searchValue,
+    page: currentPage,
+    pageSize: itemsPerPage,
+  });
 
   const handleSearch = (searchValue: string) => {
     setSearchValue(searchValue);
@@ -99,7 +60,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({ columns }) => {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {filteredRows.map((row, index) => (
+          {data.map((row, index) => (
             <tr key={index}>
               {columns.map((column) => (
                 <td key={column} className="px-6 py-4 whitespace-nowrap">
