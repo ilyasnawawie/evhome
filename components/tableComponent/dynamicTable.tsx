@@ -6,9 +6,11 @@ import { useFetchData } from './fetchData';
 
 interface DynamicTableProps {
   columns: string[];
+  apiEndpoint: string;
 }
 
-const DynamicTable: React.FC<DynamicTableProps> = ({ columns }) => {
+
+const DynamicTable: React.FC<DynamicTableProps> = ({ columns, apiEndpoint }) => {
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState('');
@@ -25,7 +27,9 @@ const DynamicTable: React.FC<DynamicTableProps> = ({ columns }) => {
     query: searchValue,
     page: currentPage,
     pageSize: itemsPerPage,
+    apiEndpoint,
   });
+  
 
   const handleSearch = (searchValue: string) => {
     setSearchValue(searchValue);

@@ -15,7 +15,9 @@ const UserPage = () => {
             "phone",
             "count"
           ]}
+          apiEndpoint="/admin/user-group"
         />
+        
       </div>
     </div>
   );

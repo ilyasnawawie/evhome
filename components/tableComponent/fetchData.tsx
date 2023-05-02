@@ -7,7 +7,9 @@ interface FetchDataOptions {
   query: string;
   page: number;
   pageSize: number;
+  apiEndpoint: string;
 }
+
 
 export const useFetchData = ({
   adminUrl,
@@ -15,6 +17,7 @@ export const useFetchData = ({
   query,
   page,
   pageSize,
+  apiEndpoint,
 }: FetchDataOptions) => {
   const [data, setData] = useState<any[]>([]);
   const [totalItems, setTotalItems] = useState(0);
@@ -31,10 +34,10 @@ export const useFetchData = ({
         };
         setIsLoading(true);
         const response = await axios.get(
-          `${adminUrl}/admin/user-group?page=${page}&page_size=${pageSize}&query=${query}`,
+          `${adminUrl}${apiEndpoint}?page=${page}&page_size=${pageSize}&query=${query}`,
           { headers }
         );
-
+        
         if (Array.isArray(response.data.data.user_groups)) {
           setData(response.data.data.user_groups);
           setTotalItems(response.data.meta.total);
