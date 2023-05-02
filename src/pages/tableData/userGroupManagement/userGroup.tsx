@@ -1,8 +1,8 @@
 import React from 'react';
-import DynamicTable from '../../../components/tableComponent/dynamicTable';
-import Navbar from '../../../components/navComponents/navbar';
+import DynamicTable from '../../../../components/tableComponent/dynamicTable';
+import Navbar from '../../../../components/navComponents/navbar';
 
-const UserPage = () => {
+const UserGroupPage = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -13,14 +13,14 @@ const UserPage = () => {
             "name",
             "email",
             "phone",
-            "count"
+            "count",
           ]}
           apiEndpoint="/admin/user-group"
+          dataPath="data.user_groups"
         />
-        
       </div>
     </div>
   );
 };
 
-export default UserPage;
+export default UserGroupPage;

@@ -8,8 +8,8 @@ interface FetchDataOptions {
   page: number;
   pageSize: number;
   apiEndpoint: string;
+  dataPath: string;
 }
-
 
 export const useFetchData = ({
   adminUrl,
@@ -18,6 +18,7 @@ export const useFetchData = ({
   page,
   pageSize,
   apiEndpoint,
+  dataPath,
 }: FetchDataOptions) => {
   const [data, setData] = useState<any[]>([]);
   const [totalItems, setTotalItems] = useState(0);
@@ -37,9 +38,10 @@ export const useFetchData = ({
           `${adminUrl}${apiEndpoint}?page=${page}&page_size=${pageSize}&query=${query}`,
           { headers }
         );
-        
-        if (Array.isArray(response.data.data.user_groups)) {
-          setData(response.data.data.user_groups);
+
+        const dataArray = dataPath.split('.').reduce((acc, key) => acc && acc[key], response.data);
+        if (Array.isArray(dataArray)) {
+          setData(dataArray);
           setTotalItems(response.data.meta.total);
         } else {
           setData([]);

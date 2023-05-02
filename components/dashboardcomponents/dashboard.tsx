@@ -23,32 +23,41 @@ const Dashboard = () => {
   };
 
   const handleCardClick = (card: CardData) => {
-    router.push('userManagement/user');
+    if (card.title === 'User Management') {
+      router.push('tableData/userManagement/user');
+    } else if (card.title === 'User Group Management') {
+      router.push('tableData/userGroupManagement/userGroup');
+    } else if (card.title === 'Charge Point'){
+      router.push('tableData/chargePoint/chargePoint');}
+      else if (card.title === 'Charge Point Port'){
+        router.push('tableData/chargePoint-Port/chargePointPort');}
+        else if (card.title === 'Order Management'){
+          router.push('tableData/orderManagement/orders');}
   };
 
   const cardData: CardData[] = [
     {
-      title: 'User management',
-      description: 'Manage user accounts and permissions.',
+      title: 'User Group Management',
+      description: 'Manage user group accounts and permissions.',
       icon: 'user',
     },
     {
-      title: 'Content management',
-      description: 'Manage website content and assets.',
-      icon: 'file',
+      title: 'User Management',
+      description: 'Manage users under different groups.',
+      icon: 'user',
     },
     {
-      title: 'Analytics and reporting',
+      title: 'Charge Point',
       description: 'Track website traffic and performance.',
       icon: 'chart-bar',
     },
     {
-      title: 'Security and access control',
+      title: 'Charge Point Port',
       description: 'Ensure website security and control access to sensitive data.',
       icon: 'lock',
     },
     {
-      title: 'Integration with other systems',
+      title: 'Order Management',
       description: 'Connect your website to other systems and APIs.',
       icon: 'link',
     },

@@ -3,6 +3,7 @@ import React from 'react';
 type InputButtonProps = {
   buttonLabel: string;
   onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  className?: string;
 };
 
 const InputButton: React.FC<InputButtonProps> = ({ buttonLabel, onClick }) => {

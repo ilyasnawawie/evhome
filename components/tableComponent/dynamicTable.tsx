@@ -3,14 +3,14 @@ import SearchBar from './searchTable';
 import Pagination from './paginationTable';
 import { useFetchData } from './fetchData';
 
-
 interface DynamicTableProps {
   columns: string[];
   apiEndpoint: string;
+  dataPath: string;
+  columnRenderers?: { [key: string]: (value: any) => any };
 }
 
-
-const DynamicTable: React.FC<DynamicTableProps> = ({ columns, apiEndpoint }) => {
+const DynamicTable: React.FC<DynamicTableProps> = ({ columns, apiEndpoint, dataPath, columnRenderers }) => {
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState('');
@@ -28,8 +28,8 @@ const DynamicTable: React.FC<DynamicTableProps> = ({ columns, apiEndpoint }) => 
     page: currentPage,
     pageSize: itemsPerPage,
     apiEndpoint,
+    dataPath,
   });
-  
 
   const handleSearch = (searchValue: string) => {
     setSearchValue(searchValue);
@@ -64,7 +64,11 @@ const DynamicTable: React.FC<DynamicTableProps> = ({ columns, apiEndpoint }) => 
               {columns.map((column) => (
                 <td key={column} className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm text-gray-900">
-                    {row[column] ? row[column] : `No data for ${column}`}
+                    {
+                      columnRenderers && columnRenderers[column]
+                        ? columnRenderers[column](row[column])
+                        : row[column] ? row[column] : `No data for ${column}`
+                    }
                   </div>
                 </td>
               ))}
