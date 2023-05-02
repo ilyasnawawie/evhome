@@ -6,6 +6,7 @@ import InputButton from '../../../components/inputComponents/inputButton';
 import InputCheckbox from '../../../components/inputComponents/inputCheckbox';
 import Header from '../../../components/headercomponents/header';
 import { AuthService } from '../../../services/authService';
+import { sha256 } from 'crypto-hash';
 
 const LoginPage = () => {
   const authService = new AuthService();
@@ -20,7 +21,7 @@ const LoginPage = () => {
 
   const handleSubmit = async () => {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-  
+
     if (emailValue.trim().length === 0 && passwordValue.trim().length === 0) {
       setErrorMessage('Both email and password fields cannot be empty');
       setLoginStatus('failure');
@@ -38,11 +39,12 @@ const LoginPage = () => {
       setLoginStatus('failure');
     } else {
       try {
-        const token = await authService.loginUser(emailValue, passwordValue);
+        const hashedPassword = await sha256(passwordValue);
+        const token = await authService.loginUser(emailValue, hashedPassword);
         setLoginStatus('success');
         setErrorMessage('');
         localStorage.setItem('token', token);
-  
+
         setTimeout(() => {
           router.push('/');
         }, 2000);
@@ -52,6 +54,7 @@ const LoginPage = () => {
       }
     }
   };
+
 
   const handlePopupClose = () => {
     setLoginStatus('none');
