@@ -5,8 +5,8 @@ import InputField from '../../../components/inputComponents/inputField';
 import InputButton from '../../../components/inputComponents/inputButton';
 import InputCheckbox from '../../../components/inputComponents/inputCheckbox';
 import Header from '../../../components/headercomponents/header';
-import { AuthService } from '../../../services/authService';
-import { sha256 } from 'crypto-hash';
+import { AuthService } from '../../../services/authservice';
+
 
 const LoginPage = () => {
   const authService = new AuthService();
@@ -39,8 +39,7 @@ const LoginPage = () => {
       setLoginStatus('failure');
     } else {
       try {
-        const hashedPassword = await sha256(passwordValue);
-        const token = await authService.loginUser(emailValue, hashedPassword);
+        const token = await authService.loginUser(emailValue, passwordValue);
         setLoginStatus('success');
         setErrorMessage('');
         localStorage.setItem('token', token);

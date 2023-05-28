@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Dashboard from '../../components/dashboardcomponents/dashboard'
-import Navbar from '../../components/navComponents/navbar';
+import Navbar from '../../components/navcomponents/navbar';
 
 const IndexPage = () => {
   const router = useRouter();
