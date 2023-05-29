@@ -23,16 +23,8 @@ const Dashboard = () => {
   };
 
   const handleCardClick = (card: CardData) => {
-    if (card.title === 'User Management') {
-      router.push('tableData/userManagement/user');
-    } else if (card.title === 'User Group Management') {
-      router.push('tableData/userGroupManagement/userGroup');
-    } else if (card.title === 'Charge Point'){
-      router.push('tableData/chargePoint/chargePoint');}
-      else if (card.title === 'Charge Point Port'){
-        router.push('tableData/chargePoint-Port/chargePointPort');}
-        else if (card.title === 'Order Management'){
-          router.push('tableData/orderManagement/orders');}
+    const apiEndpoint = card.title.toLowerCase().replace(/\s/g, '');
+    router.push(`/${apiEndpoint}`);
   };
 
   const cardData: CardData[] = [
@@ -42,7 +34,7 @@ const Dashboard = () => {
       icon: 'user',
     },
     {
-      title: 'User Management',
+      title: 'Users',
       description: 'Manage users under different groups.',
       icon: 'user',
     },
