@@ -1,6 +1,6 @@
 import React from 'react';
 import DynamicTable from '../../../../components/tableComponent/dynamicTable';
-import Navbar from '../../../../components/navComponents/navbar';
+import Navbar from '../../../../components/navcomponents/navbar';
 
 const RFIDuserPage = () => {
     return (

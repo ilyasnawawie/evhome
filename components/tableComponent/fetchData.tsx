@@ -21,7 +21,7 @@ export const useFetchData = ({
   dataPath,
 }: FetchDataOptions) => {
   const [data, setData] = useState<any[]>([]);
-  const [totalItems, setTotalItems] = useState(0);
+  const [meta, setMeta] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export const useFetchData = ({
         const dataArray = dataPath.split('.').reduce((acc, key) => acc && acc[key], response.data);
         if (Array.isArray(dataArray)) {
           setData(dataArray);
-          setTotalItems(response.data.meta.total);
+          setMeta(response.data.meta); // Set meta directly from response.data
         } else {
           setData([]);
         }
@@ -56,5 +56,7 @@ export const useFetchData = ({
     fetchData();
   }, [adminUrl, token, query, page, pageSize]);
 
-  return { data, totalItems, isLoading };
+  // Return meta as well
+  return { data, totalItems: meta ? meta.total : 0, isLoading, meta };
+
 };
