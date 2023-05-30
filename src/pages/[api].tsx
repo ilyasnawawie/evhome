@@ -10,20 +10,22 @@ interface DynamicPagesProps {
 }
 
 const DynamicPages: NextPage<DynamicPagesProps> = ({ api }) => {
+    const tableWidth = 1000;
+  
     return (
-        <div className="flex flex-col min-h-screen">
-            <Navbar />
-            <div className="flex flex-col min-h-screen justify-center items-center flex-grow">
-                <div style={{ width: '100%', overflow: 'auto' }}>
-                    <DynamicTable
-                        apiEndpoint={`/${api}/`}
-                        dataPath={`data`}
-                    />
-                </div>
-            </div>
+      <div className="flex flex-col min-h-screen">
+        <Navbar />
+        <div className="flex flex-col min-h-screen justify-center items-center flex-grow">
+          <div style={{ maxWidth: `${tableWidth}px`, overflow: 'auto' }}>
+            <DynamicTable
+              apiEndpoint={`/${api}/`}
+              dataPath={`data`}
+            />
+          </div>
         </div>
+      </div>
     );
-};
+  };
 
 export async function getServerSideProps(context: GetServerSidePropsContext<{ api: string }>) {
     const cookies = nookies.get(context);

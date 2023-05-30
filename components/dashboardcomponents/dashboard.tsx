@@ -23,13 +23,13 @@ const Dashboard = () => {
   };
 
   const handleCardClick = (card: CardData) => {
-    const apiEndpoint = card.title.toLowerCase().replace(/\s/g, '');
+    const apiEndpoint = card.title.toLowerCase().replace(/\s/g, '_');
     router.push(`/${apiEndpoint}`);
   };
 
   const cardData: CardData[] = [
     {
-      title: 'User Group Management',
+      title: 'User Groups',
       description: 'Manage user group accounts and permissions.',
       icon: 'user',
     },
@@ -44,12 +44,12 @@ const Dashboard = () => {
       icon: 'chart-bar',
     },
     {
-      title: 'Charge Point Port',
+      title: 'Charge Point Locations',
       description: 'Ensure website security and control access to sensitive data.',
       icon: 'lock',
     },
     {
-      title: 'Order Management',
+      title: 'Charge Point Location Ownerships',
       description: 'Connect your website to other systems and APIs.',
       icon: 'link',
     },

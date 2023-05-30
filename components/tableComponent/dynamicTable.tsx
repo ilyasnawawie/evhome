@@ -52,13 +52,16 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
     setCurrentPage(newPage);
   };
 
+  // Set the width of the table and parent div element of the SearchBar
+  const tableWidth = 1000;
+
   return (
     <div className="bg-white overflow-hidden shadow-md rounded-md">
-      <div className="flex items-center justify-end px-6 py-3">
+      <div className="flex items-center justify-end px-6 py-3" style={{ width: `${tableWidth}px` }}>
         <SearchBar onSearch={handleSearch} />
       </div>
       <div className="table-container overflow-x-auto" style={{maxWidth: '100%'}}>
-        <table className="table-fixed divide-y divide-gray-200">
+        <table className="table-fixed divide-y divide-gray-200 rounded-lg border border-gray-200">
           <colgroup>
             <col style={{ width: '300px' }} /> {/* Adjust the width as needed */}
             {columns.map((_, index) => (
