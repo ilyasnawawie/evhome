@@ -63,6 +63,37 @@ const Dashboard = () => {
       description: 'Get help and access documentation.',
       icon: 'question',
     },
+    {
+      title: 'Charge Point Port Meter Values',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'Charge Point Port Prices',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'Charge Point Port Status',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'Charge Point Port Status Types',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'Faults',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'Fault Types',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    
   ];
 
   return (
