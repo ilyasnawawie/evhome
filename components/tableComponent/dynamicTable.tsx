@@ -4,6 +4,7 @@ import Pagination from './paginationTable';
 import { useFetchData } from './fetchData';
 import nookies from 'nookies';
 
+
 interface DynamicTableProps {
   apiEndpoint: string;
   dataPath: string;
