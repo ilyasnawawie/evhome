@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { useRouter } from 'next/router';
+import nookies from 'nookies';
 
 function classNames(...classes: (string | undefined)[]) {
   return classes.filter(Boolean).join(' ');
@@ -10,9 +11,11 @@ const ProfileDropdown: React.FC = () => {
   const router = useRouter();
 
   const handleSignOut = () => {
+    nookies.set(null, 'authToken', '', { path: '/' }); // remove auth token from cookie
     localStorage.removeItem('token');
     router.push('auth/login');
   };
+  
 
   const handleChangePassword = () => {
     router.push('auth/newPassword');

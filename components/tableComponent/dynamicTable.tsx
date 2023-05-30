@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import SearchBar from './searchTable';
 import Pagination from './paginationTable';
 import { useFetchData } from './fetchData';
+import nookies from 'nookies';
 
 interface DynamicTableProps {
   apiEndpoint: string;
@@ -21,7 +22,8 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
   const [columns, setColumns] = useState<string[]>([]);
 
   useEffect(() => {
-    setToken(localStorage.getItem('token'));
+    const cookies = nookies.get(null);
+    setToken(cookies.authToken);
   }, []);
 
   const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL || '';

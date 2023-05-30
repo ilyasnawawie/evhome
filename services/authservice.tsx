@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
+import nookies from 'nookies';
 
 interface LoginResponse {
   token: string;
@@ -20,7 +21,8 @@ export class AuthService {
       const response: AxiosResponse<LoginResponse> = await axios.post(endpoint, params);
 
       const token = response.data.token;
-      localStorage.setItem('authToken', token);
+      nookies.set(null, 'authToken', token, { path: '/' });
+
       return token;
     } catch (error) {
       if (axios.isAxiosError(error)) {

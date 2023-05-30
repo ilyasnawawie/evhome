@@ -1,12 +1,15 @@
 import React from 'react';
 import DynamicTable from '../../components/tableComponent/dynamicTable';
 import Navbar from '../../components/navcomponents/navbar';
+import { GetServerSidePropsContext, NextPage } from 'next';
+import nookies from 'nookies';
+import { withAuth } from '../../services/checkSession';
 
-interface TablePageProps {
+interface DynamicPagesProps {
     api: string;
 }
 
-const TablePage: React.FC<TablePageProps> = ({ api }) => {
+const DynamicPages: NextPage<DynamicPagesProps> = ({ api }) => {
     return (
         <div className="flex flex-col min-h-screen">
             <Navbar />
@@ -22,18 +25,28 @@ const TablePage: React.FC<TablePageProps> = ({ api }) => {
     );
 };
 
-export async function getStaticPaths(): Promise<{ paths: { params: { api: string } }[], fallback: boolean }> {
-    const apis = ['users', 'orders', 'products'];
+export async function getServerSideProps(context: GetServerSidePropsContext<{ api: string }>) {
+    const cookies = nookies.get(context);
+    const token = cookies.authToken;
 
-    const paths = apis.map(api => ({
-        params: { api },
-    }))
+    if (!token) {
+        return {
+            redirect: {
+                destination: 'auth/login',
+                permanent: false,
+            },
+        };
+    }
 
-    return { paths, fallback: false }
+    const api = context.params?.api;
+
+    if (!api) {
+        return {
+            notFound: true,
+        };
+    }
+
+    return { props: { api } };
 }
 
-export async function getStaticProps({ params }: { params: { api: string } }) {
-    return { props: { api: params.api } }
-}
-
-export default TablePage;
+export default withAuth(DynamicPages);

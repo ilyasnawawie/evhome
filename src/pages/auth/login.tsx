@@ -6,6 +6,7 @@ import InputButton from '../../../components/inputComponents/inputButton';
 import InputCheckbox from '../../../components/inputComponents/inputCheckbox';
 import Header from '../../../components/headercomponents/header';
 import { AuthService } from '../../../services/authservice';
+import nookies from 'nookies';
 
 
 const LoginPage = () => {
@@ -42,7 +43,7 @@ const LoginPage = () => {
         const token = await authService.loginUser(emailValue, passwordValue);
         setLoginStatus('success');
         setErrorMessage('');
-        localStorage.setItem('token', token);
+        nookies.set(null, 'authToken', token, { path: '/' });
 
         setTimeout(() => {
           router.push('/');
