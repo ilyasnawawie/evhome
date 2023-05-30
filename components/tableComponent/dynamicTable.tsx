@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import SearchBar from './searchTable';
 import Pagination from './paginationTable';
 import { useFetchData } from './fetchData';
@@ -20,6 +20,8 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
   const [searchValue, setSearchValue] = useState('');
   const [token, setToken] = useState<string | null>(null);
   const [columns, setColumns] = useState<string[]>([]);
+  const tableRef = useRef<HTMLTableElement>(null);
+  const [tableWidth, setTableWidth] = useState(0);
 
   useEffect(() => {
     const cookies = nookies.get(null);
@@ -43,6 +45,12 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
     }
   }, [meta]);
 
+  useEffect(() => {
+    if (tableRef.current) {
+      setTableWidth(tableRef.current.offsetWidth);
+    }
+  }, [tableRef.current]);
+
   const handleSearch = (searchValue: string) => {
     setSearchValue(searchValue);
     setCurrentPage(1);
@@ -52,16 +60,13 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
     setCurrentPage(newPage);
   };
 
-  // Set the width of the table and parent div element of the SearchBar
-  const tableWidth = 1000;
-
   return (
     <div className="bg-white overflow-hidden shadow-md rounded-md">
-      <div className="flex items-center justify-end px-6 py-3" style={{ width: `${tableWidth}px` }}>
+        <div className="flex justify-end px-6 py-3">
         <SearchBar onSearch={handleSearch} />
       </div>
       <div className="table-container overflow-x-auto" style={{maxWidth: '100%'}}>
-        <table className="table-fixed divide-y divide-gray-200 rounded-lg border border-gray-200">
+        <table ref={tableRef} className="table-fixed divide-y divide-gray-200 rounded-lg border border-gray-200">
           <colgroup>
             <col style={{ width: '300px' }} /> {/* Adjust the width as needed */}
             {columns.map((_, index) => (

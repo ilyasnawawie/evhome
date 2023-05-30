@@ -54,12 +54,12 @@ const Dashboard = () => {
       icon: 'link',
     },
     {
-      title: 'Customization',
+      title: 'Charge Point Port',
       description: "Customize your website's look and feel.",
       icon: 'palette',
     },
     {
-      title: 'Support and documentation',
+      title: 'Charge Point Port Error Code Types',
       description: 'Get help and access documentation.',
       icon: 'question',
     },

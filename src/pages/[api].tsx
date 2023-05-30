@@ -27,6 +27,7 @@ const DynamicPages: NextPage<DynamicPagesProps> = ({ api }) => {
     );
   };
 
+
 export async function getServerSideProps(context: GetServerSidePropsContext<{ api: string }>) {
     const cookies = nookies.get(context);
     const token = cookies.authToken;
