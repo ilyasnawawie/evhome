@@ -15,7 +15,7 @@ export class AuthService {
     params.append('email', email);
     params.append('password', password);
 
-    const endpoint = `http://127.0.0.1:8000/login/`;
+    const endpoint = `https://127.0.0.1:8000/login/`;
 
     try {
       const response: AxiosResponse<LoginResponse> = await axios.post(endpoint, params);

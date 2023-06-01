@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import SearchBar from './searchTable';
 import Pagination from './paginationTable';
+import Sort from './sortAscDesc';
 import { useFetchData } from './fetchData';
 import nookies from 'nookies';
-
 
 interface DynamicTableProps {
   apiEndpoint: string;
@@ -21,6 +21,8 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
   const [searchValue, setSearchValue] = useState('');
   const [token, setToken] = useState<string | null>(null);
   const [columns, setColumns] = useState<string[]>([]);
+  const [sortColumn, setSortColumn] = useState<string | null>(null);
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const tableRef = useRef<HTMLTableElement>(null);
   const [tableWidth, setTableWidth] = useState(0);
 
@@ -37,7 +39,9 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
     page: currentPage,
     pageSize: itemsPerPage,
     apiEndpoint,
-    dataPath
+    dataPath,
+    sortColumn,
+    sortOrder
   });
 
   useEffect(() => {
@@ -59,6 +63,11 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
+  };
+
+  const handleSort = (column: string, order: 'asc' | 'desc') => {
+    setSortColumn(column);
+    setSortOrder(order);
   };
 
   return (
@@ -83,6 +92,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
                   {column}
+                  <Sort column={column} onSort={handleSort} />
                 </th>
               ))}
             </tr>

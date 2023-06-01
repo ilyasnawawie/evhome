@@ -9,6 +9,8 @@ interface FetchDataOptions {
   pageSize: number;
   apiEndpoint: string;
   dataPath: string;
+  sortColumn: string | null;
+  sortOrder: 'asc' | 'desc';
 }
 
 export const useFetchData = ({
@@ -19,6 +21,8 @@ export const useFetchData = ({
   pageSize,
   apiEndpoint,
   dataPath,
+  sortColumn,
+  sortOrder
 }: FetchDataOptions) => {
   const [data, setData] = useState<any[]>([]);
   const [meta, setMeta] = useState<any>(null);
@@ -35,7 +39,7 @@ export const useFetchData = ({
         };
         setIsLoading(true);
         const response = await axios.get(
-          `${adminUrl}${apiEndpoint}?page=${page}&page_size=${pageSize}&query=${query}`,
+          `${adminUrl}${apiEndpoint}?page=${page}&page_size=${pageSize}&query=${query}${sortColumn ? `&sortColumn=${sortColumn}&sortOrder=${sortOrder}` : ''}`,
           { headers }
         );
 
@@ -54,9 +58,8 @@ export const useFetchData = ({
     };
 
     fetchData();
-  }, [adminUrl, token, query, page, pageSize]);
+  }, [adminUrl, token, query, page, pageSize, sortColumn, sortOrder]); // Add sortColumn and sortOrder to dependency array
 
   // Return meta as well
   return { data, totalItems: meta ? meta.total : 0, isLoading, meta };
-
 };

@@ -10,7 +10,6 @@ const Sort: React.FC<SortProps> = ({ column, onSort }) => {
 
   const handleSort = () => {
     const newOrder = order === 'asc' ? 'desc' : 'asc';
-    console.log('Sort handleSort', column, newOrder);
     onSort(column, newOrder);
     setOrder(newOrder);
   };
