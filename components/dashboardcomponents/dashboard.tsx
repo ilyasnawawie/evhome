@@ -29,7 +29,7 @@ const Dashboard = () => {
 
   const cardData: CardData[] = [
     {
-      title: 'User Groups',
+      title: 'Auth Tokens',
       description: 'Manage user group accounts and permissions.',
       icon: 'user',
     },
@@ -93,6 +93,7 @@ const Dashboard = () => {
       description: 'Get help and access documentation.',
       icon: 'question',
     },
+    
     
   ];
 
