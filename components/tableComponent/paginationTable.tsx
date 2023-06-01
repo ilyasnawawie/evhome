@@ -45,6 +45,9 @@ const Pagination: React.FC<PaginationProps> = ({
       >
         <LastPage />
       </button>
+      <div className="ml-4">
+        Page {currentPage} of {totalPages} - {totalItems} entries
+      </div>
     </div>
   );
 };
@@ -65,4 +68,3 @@ const StyledPagination = styled(MuiPagination)`
 `;
 
 export default React.memo(Pagination);
-

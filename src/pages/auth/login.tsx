@@ -8,7 +8,6 @@ import Header from '../../../components/headercomponents/header';
 import { AuthService } from '../../../services/authservice';
 import nookies from 'nookies';
 
-
 const LoginPage = () => {
   const authService = new AuthService();
   const [emailValue, setEmailValue] = useState('');
@@ -21,22 +20,14 @@ const LoginPage = () => {
   const router = useRouter();
 
   const handleSubmit = async () => {
-    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-
     if (emailValue.trim().length === 0 && passwordValue.trim().length === 0) {
       setErrorMessage('Both email and password fields cannot be empty');
       setLoginStatus('failure');
     } else if (emailValue.trim().length === 0) {
       setErrorMessage('Email cannot be empty');
       setLoginStatus('failure');
-    } else if (!emailRegex.test(emailValue)) {
-      setErrorMessage('Please enter a valid email address');
-      setLoginStatus('failure');
     } else if (passwordValue.trim().length === 0) {
       setErrorMessage('Password cannot be empty');
-      setLoginStatus('failure');
-    } else if (passwordValue.trim().length < 8) {
-      setErrorMessage('Password must contain at least 8 characters.');
       setLoginStatus('failure');
     } else {
       try {
@@ -50,11 +41,20 @@ const LoginPage = () => {
         }, 2000);
       } catch (error: any) {
         setLoginStatus('failure');
-        setErrorMessage(error.message);
+        if (error.response && error.response.data.errors) {
+          if (error.response.data.errors.email) {
+            setErrorMessage(error.response.data.errors.email[0]);
+          } else if (error.response.data.errors.password) {
+            setErrorMessage(error.response.data.errors.password[0]);
+          } else {
+            setErrorMessage('An unexpected error occurred.');
+          }
+        } else {
+          setErrorMessage('An unexpected error occurred.');
+        }
       }
     }
   };
-
 
   const handlePopupClose = () => {
     setLoginStatus('none');

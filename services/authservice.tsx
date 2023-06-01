@@ -6,7 +6,10 @@ interface LoginResponse {
 }
 
 interface ErrorResponse {
-  error: string;
+  message: string;
+  errors: {
+    detail: string[];
+  };
 }
 
 export class AuthService {
@@ -27,8 +30,8 @@ export class AuthService {
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const err = error.response?.data as ErrorResponse;
-        if (err && err.error) {
-          throw new Error(err.error);
+        if (err && err.errors && err.errors.detail) {
+          throw new Error(`${err.message}: ${err.errors.detail.join(' ')}`);
         } else {
           throw new Error('An unexpected error occurred.');
         }
