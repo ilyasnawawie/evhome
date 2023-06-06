@@ -93,8 +93,106 @@ const Dashboard = () => {
       description: 'Get help and access documentation.',
       icon: 'question',
     },
-    
-    
+    {
+      title: 'TopUp',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'TopUp Status',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'TopUp Status Type',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'TopUp Type',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'User',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'User Groups',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'User Group Users',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'User Group User RFID',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'Orders',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'Order Status',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'Order Types',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'Order Status Reason Types',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'Penalties',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'Penalty Status',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'Penalty Charges',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'Penalty Status Types',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'Reservations',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'Reservations Status',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'Reservations Status Types',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'Reservations Order Relations',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
   ];
 
   return (
