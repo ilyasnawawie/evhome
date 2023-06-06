@@ -193,6 +193,36 @@ const Dashboard = () => {
       description: 'Get help and access documentation.',
       icon: 'question',
     },
+    {
+      title: 'Wallet',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'Wallet Transaction Type',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'Withdrawal',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'Withdrawal Status',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'Withdrawal Type',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'Withdrawal Status Type',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
   ];
 
   return (

@@ -92,7 +92,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
                   {column}
-                  <Sort column={column} onSort={handleSort} />
+                  <Sort column={column} currentSortColumn={sortColumn} onSort={handleSort} />
                 </th>
               ))}
             </tr>
