@@ -8,10 +8,12 @@ interface SortProps {
 
 const Sort: React.FC<SortProps> = ({ column, currentSortColumn, onSort }) => {
   const [order, setOrder] = useState<'asc' | 'desc'>('asc');
+  const [showIcon, setShowIcon] = useState(false);
 
   useEffect(() => {
     if (currentSortColumn !== column) {
       setOrder('asc');
+      setShowIcon(false);
     }
   }, [currentSortColumn]);
 
@@ -19,12 +21,23 @@ const Sort: React.FC<SortProps> = ({ column, currentSortColumn, onSort }) => {
     const newOrder = order === 'asc' ? 'desc' : 'asc';
     onSort(column, newOrder);
     setOrder(newOrder);
+    setShowIcon(true);
   };
 
   return (
-    <button onClick={handleSort}>
-      {column === currentSortColumn ? '' : (order === 'asc' ? '▲' : '▼')}
-    </button>
+    <div className="flex items-center">
+      <span 
+        className="cursor-pointer hover:bg-yellow-200 inline-block py-1 px-2 rounded" 
+        onClick={handleSort}
+      >
+        {column}
+      </span>
+      {showIcon && (
+        <span className="ml-2">
+          {order === 'asc' ? '▲' : '▼'}
+        </span>
+      )}
+    </div>
   );
 };
 
