@@ -6,6 +6,7 @@ type InputFieldProps = {
   type: string;
   placeholder?: string;
   value: string;
+  error?: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -15,6 +16,7 @@ const InputField = ({
   type,
   placeholder,
   value,
+  error,
   onChange,
 }: InputFieldProps) => {
   return (
@@ -43,6 +45,7 @@ const InputField = ({
         onFocus={(event) => (event.target.placeholder = "")}
         onBlur={(event) => (event.target.placeholder = placeholder ?? "")}
       />
+      <div className="text-red-500 text-xs mt-1">{error}</div>
     </div>
   );
 };

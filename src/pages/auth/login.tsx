@@ -17,41 +17,47 @@ const LoginPage = () => {
     'success' | 'failure' | 'none'
   >('none');
   const [errorMessage, setErrorMessage] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const router = useRouter();
 
   const handleSubmit = async () => {
+    setEmailError('');
+    setPasswordError('');
+
     if (emailValue.trim().length === 0 && passwordValue.trim().length === 0) {
       setErrorMessage('Both email and password fields cannot be empty');
       setLoginStatus('failure');
     } else if (emailValue.trim().length === 0) {
-      setErrorMessage('Email cannot be empty');
+      setEmailError('Email cannot be empty');
       setLoginStatus('failure');
     } else if (passwordValue.trim().length === 0) {
-      setErrorMessage('Password cannot be empty');
+      setPasswordError('Password cannot be empty');
       setLoginStatus('failure');
     } else {
       try {
-        const token = await authService.loginUser(emailValue, passwordValue);
-        setLoginStatus('success');
-        setErrorMessage('');
-        nookies.set(null, 'authToken', token, { path: '/' });
+        const result = await authService.loginUser(emailValue, passwordValue);
 
-        setTimeout(() => {
-          router.push('/');
-        }, 2000);
+        if ('token' in result) {
+          setLoginStatus('success');
+          setErrorMessage('');
+          nookies.set(null, 'authToken', result.token, { path: '/' });
+
+          setTimeout(() => {
+            router.push('/');
+          }, 2000);
+        } else {
+          setLoginStatus('failure');
+          if (result.errors.email) {
+            setEmailError(result.errors.email[0]);
+          }
+          if (result.errors.password) {
+            setPasswordError(result.errors.password[0]);
+          }
+        }
       } catch (error: any) {
         setLoginStatus('failure');
-        if (error.response && error.response.data.errors) {
-          if (error.response.data.errors.email) {
-            setErrorMessage(error.response.data.errors.email[0]);
-          } else if (error.response.data.errors.password) {
-            setErrorMessage(error.response.data.errors.password[0]);
-          } else {
-            setErrorMessage('An unexpected error occurred.');
-          }
-        } else {
-          setErrorMessage('An unexpected error occurred.');
-        }
+        setErrorMessage('An unexpected error occurred.');
       }
     }
   };
@@ -90,6 +96,7 @@ const LoginPage = () => {
             type={inputs.email.type}
             placeholder={inputs.email.placeholder}
             value={emailValue}
+            error={emailError}
             onChange={(event) => setEmailValue(event.target.value)}
           />
           <InputField
@@ -99,6 +106,7 @@ const LoginPage = () => {
             type={inputs.password.type}
             placeholder={inputs.password.placeholder}
             value={passwordValue}
+            error={passwordError}
             onChange={(event) => setPasswordValue(event.target.value)}
           />
           <div className="flex items-center justify-between">
@@ -123,17 +131,6 @@ const LoginPage = () => {
             role="alert"
           >
             Login successful!
-            <button className="float-right" onClick={handlePopupClose}>
-              x
-            </button>
-          </div>
-        )}
-        {loginStatus === 'failure' && (
-          <div
-            className="bg-red-200 border-red-600 border-2 rounded-md p-4 mt-4 text-red-600"
-            role="alert"
-          >
-            {errorMessage}
             <button className="float-right" onClick={handlePopupClose}>
               x
             </button>
