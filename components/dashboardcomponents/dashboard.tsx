@@ -1,4 +1,3 @@
-// Dashboard.tsx
 import { useState } from 'react';
 import DashboardLink from '../dashboardcomponents/dashboardLink';
 import DashboardContent from '../dashboardcomponents/dashboardContent';
@@ -249,16 +248,16 @@ const Dashboard = () => {
     <div className="flex flex-wrap justify-center items-center max-w-screen-lg mx-auto">
       {cardData.map((card) => (
         <div
-          className="card relative"
+          className="card relative cursor-pointer" // Add the cursor-pointer class here
           key={card.title}
           onMouseEnter={() => handleCardHover(card)}
           onMouseLeave={handleCardLeave}
+          onClick={() => handleCardClick(card)} // Add the onClick handler to the entire card
         >
           <DashboardLink
             title={card.title}
             onMouseEnter={() => handleCardHover(card)}
             onMouseLeave={handleCardLeave}
-            onClick={() => handleCardClick(card)}
           />
           <div className="card-icon">
             <i className={`fas fa-${card.icon}`}></i>
