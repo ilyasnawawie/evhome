@@ -149,6 +149,11 @@ const Dashboard = () => {
       icon: 'question',
     },
     {
+      title: 'Order Status Types',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
       title: 'Order Status Reason Types',
       description: 'Get help and access documentation.',
       icon: 'question',
@@ -199,7 +204,7 @@ const Dashboard = () => {
       icon: 'question',
     },
     {
-      title: 'Wallet Transaction Type',
+      title: 'Wallet Transaction Types',
       description: 'Get help and access documentation.',
       icon: 'question',
     },
@@ -220,6 +225,21 @@ const Dashboard = () => {
     },
     {
       title: 'Withdrawal Status Type',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'Car Brand',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'Car Model',
+      description: 'Get help and access documentation.',
+      icon: 'question',
+    },
+    {
+      title: 'User Car',
       description: 'Get help and access documentation.',
       icon: 'question',
     },
