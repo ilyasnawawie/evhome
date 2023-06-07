@@ -46,7 +46,7 @@ export const useFetchData = ({
         const dataArray = dataPath.split('.').reduce((acc, key) => acc && acc[key], response.data);
         if (Array.isArray(dataArray)) {
           setData(dataArray);
-          setMeta(response.data.meta); // Set meta directly from response.data
+          setMeta(response.data.meta); 
         } else {
           setData([]);
         }
@@ -58,8 +58,7 @@ export const useFetchData = ({
     };
 
     fetchData();
-  }, [adminUrl, token, query, page, pageSize, sortColumn, sortOrder]); // Add sortColumn and sortOrder to dependency array
-
-  // Return meta as well
+  }, [adminUrl, token, query, page, pageSize, sortColumn, sortOrder]);
+  
   return { data, totalItems: meta ? meta.total : 0, isLoading, meta };
 };

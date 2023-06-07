@@ -66,16 +66,20 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
   };
 
   const handleSort = (column: string, order: 'asc' | 'desc') => {
-    setSortColumn(column);
-    setSortOrder(order);
+    if (sortColumn === column) {
+      setSortOrder(order);
+    } else {
+      setSortColumn(column);
+      setSortOrder('asc');
+    }
   };
 
   return (
     <div className="bg-white overflow-hidden shadow-md rounded-md">
-        <div className="flex justify-end px-6 py-3">
+      <div className="flex justify-end px-6 py-3">
         <SearchBar onSearch={handleSearch} />
       </div>
-      <div className="table-container overflow-x-auto" style={{maxWidth: '100%'}}>
+      <div className="table-container overflow-x-auto" style={{ maxWidth: '100%' }}>
         <table ref={tableRef} className="table-fixed divide-y divide-gray-200 rounded-lg border border-gray-200">
           <colgroup>
             <col style={{ width: '300px' }} /> {/* Adjust the width as needed */}
@@ -91,7 +95,6 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
                   key={column}
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
-                  {column}
                   <Sort column={column} currentSortColumn={sortColumn} onSort={handleSort} />
                 </th>
               ))}
