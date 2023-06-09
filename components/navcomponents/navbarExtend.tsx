@@ -1,26 +1,12 @@
 import React, { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
-import { useRouter } from 'next/router';
-import nookies from 'nookies';
+import withLogout from '../../services/withLogoutService';
 
 function classNames(...classes: (string | undefined)[]) {
   return classes.filter(Boolean).join(' ');
 }
 
-const ProfileDropdown: React.FC = () => {
-  const router = useRouter();
-
-  const handleSignOut = () => {
-    nookies.set(null, 'authToken', '', { path: '/' }); // remove auth token from cookie
-    localStorage.removeItem('token');
-    router.push('auth/login');
-  };
-  
-
-  const handleChangePassword = () => {
-    router.push('auth/newPassword');
-  }
-
+const ProfileDropdown: React.FC<{ logout: () => Promise<void> }> = ({ logout }) => {
   return (
     <Menu as="div" className="relative ml-3 z-10">
       <div>
@@ -54,10 +40,6 @@ const ProfileDropdown: React.FC = () => {
             {({ active }) => (
               <a
                 href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleChangePassword();
-                }}
                 className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
               >
                 Change Password
@@ -70,7 +52,7 @@ const ProfileDropdown: React.FC = () => {
                 href="#"
                 onClick={(e) => {
                   e.preventDefault();
-                  handleSignOut();
+                  logout();
                 }}
                 className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
               >
@@ -84,4 +66,4 @@ const ProfileDropdown: React.FC = () => {
   );
 };
 
-export default ProfileDropdown;
+export default withLogout(ProfileDropdown);

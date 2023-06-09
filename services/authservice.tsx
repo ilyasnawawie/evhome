@@ -27,7 +27,6 @@ export class AuthService {
       const token = response.data.token;
       nookies.set(null, 'authToken', token, { path: '/' });
 
-      // return an object that matches the LoginResponse interface
       return { token };
     } catch (error) {
       if (axios.isAxiosError(error)) {
