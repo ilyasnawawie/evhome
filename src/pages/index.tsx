@@ -1,24 +1,26 @@
-import React from 'react';
-import { useRouter } from 'next/router';
-import Dashboard from '../../components/dashboardcomponents/dashboard'
-import Navbar from '../../components/navcomponents/navbar';
-import { withAuth } from '../../services/checkSession';
+import React, { useState } from 'react';
+import Wheel from '../../components/wheelComponents/wheels';
+import Button from '../../components/wheelComponents/buttons';
 
-const IndexPage = () => {
-  const router = useRouter();
+interface SectionData {
+  name: string;
+  percentage: number;
+}
+
+export default function HomePage() {
+  const [isSpinning, setSpinning] = useState(false);
+
+  const data: SectionData[] = [
+    { name: 'Section 1', percentage: 25 },
+    { name: 'Section 2', percentage: 25 },
+    { name: 'Section 3', percentage: 25 },
+    { name: 'Section 4', percentage: 25 },
+  ];
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <div>
-        <div>
-          <Navbar />
-        </div>
-        <div className="flex flex-col min-h-screen justify-center items-center flex-grow">
-          <Dashboard />
-        </div>
-      </div>
+    <div>
+      <Wheel data={data} spinning={isSpinning} />
+      <Button onClick={() => setSpinning(!isSpinning)}>Start</Button>
     </div>
   );
-};
-
-export default withAuth(IndexPage);
+}

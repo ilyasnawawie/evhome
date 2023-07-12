@@ -1,0 +1,30 @@
+.wheel {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+  }
+  
+  .spinning {
+    animation: spin 5s ease-out;
+  }
+  
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  
